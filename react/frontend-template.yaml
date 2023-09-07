@@ -56,7 +56,7 @@ spec:
       name: Publish
       action: publish:gitlab
       input:
-        # allowedHosts: ['github.com']
+        allowedHosts: ['gitlab.coe.sysmap.com.br']
         description: ${{ parameters.app_name }}
         repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=${{ parameters.owner }}'
         repoVisibility: 'public'
