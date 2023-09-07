@@ -7,17 +7,15 @@ metadata:
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: coe-tech
   tags:
-      - backend
-      - node
-      - microservice
+      - frontend
+      - react
   links:
     - url: https://admin.example-org.com
       title: Admin Dashboard
       icon: dashboard
       type: admin-dashboard
 spec:
-  type: service
+  type: website
   lifecycle: production
   owner: ${{values.owner}}
   system: ${{values.system_name}}
-  apiConsumedBy: ['']
