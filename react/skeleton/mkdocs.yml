@@ -1,8 +1,10 @@
 site_name: ${{values.name_app}}
 system_name: ${{values.system_name}}
-
-nav:
-  - Introduction: index.md
+repo_url: ${{values.remoteUrl}}
+edit_uri: edit/master/docs
 
 plugins:
   - techdocs-core
+
+nav:
+  - Introduction: index.md
