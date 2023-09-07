@@ -1,0 +1,77 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: react-webapp-scaffolder
+  title: React - Frontend WebApp
+  description: Common React Frontend Scaffolder
+  tags:
+    - recommended
+    - coe-arq
+    - frontend
+    - react
+    - webapp
+spec:
+  owner: squad-coe
+  type: service
+  parameters:
+    - title: Provide some simple information about default entrypoint
+      required:
+        - app_name
+        - system_name
+      properties:
+        app_name:
+          title: WebApp Name
+          type: string
+          description: Application Unique Name.
+          pattern: '^\S*[a-z\-]$'
+        system_name:
+          title: System
+          type: string
+          description: System that its component is part of.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - System
+            defaultKind: System
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          app_name: ${{ parameters.app_name }}
+          owner: ${{ parameters.owner }}
+          system_name: ${{ parameters.system_name }}
+
+    - id: publish
+      name: Publish
+      action: publish:gitlab
+      input:
+        # allowedHosts: ['github.com']
+        description: ${{ parameters.app_name }}
+        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=${{ parameters.owner }}'
+        repoVisibility: 'public'
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}

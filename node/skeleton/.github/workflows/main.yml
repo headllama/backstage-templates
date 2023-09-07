@@ -1,0 +1,77 @@
+# Nome da pipeline.
+name: Backstage ms deploy
+
+env:
+  PROJETO: "backstage-coe"
+  EMAIL: "walber.silva@sysmap.com.br"
+  NAMESPACE: "backstage"
+
+# Hooks
+# on é obrigatório
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ bar ]
+
+# Os jobs que irão rodar
+jobs:
+  build_job:
+    name: build
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2.4.0    
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - run: |
+        npm init -y
+        npm install
+#     - uses: actions/upload-artifact@v3.1.1
+#       with:
+#         path: ${{ '${{ github.workspace }}' }}/package.json
+#         name: skeleton-tar
+#         if-no-files-found: error
+#         retention-days: 1
+        
+  kaniko:
+   name: kaniko_push
+   runs-on: self-hosted
+   needs: [build_job]
+   steps:
+   - uses: actions/checkout@v2.4.0
+#    - uses: actions/download-artifact@v3.0.1
+#      with:
+#        name: skeleton-tar
+#        path: ${{ '${{ github.workspace }}' }}/package.json
+   - name: Kaniko builder
+     uses: aevea/action-kaniko@v0.10.0
+     with:
+       username: ${{ '${{ secrets.DOCKERHUB_USERNAME }}' }}
+       password: ${{ '${{ secrets.DOCKERHUB_PASSWORD }}' }}
+       image: walber7/node-web-app
+       tag: ${{ '${{ github.run_number }}' }}
+  #         cache: true
+  #         cache_registry: walber7/cache
+        
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: [kaniko]
+    steps:
+     - uses: actions/checkout@v2.4.0
+     - name: Set short git commit SHA
+       id: vars
+       run: |
+         calculatedSha=$(git rev-parse --short ${{ '${{ github.sha }}' }})
+         echo "::set-output name=short_sha::$calculatedSha"
+         sed -i 's,$REGISTRY.*,walber7/node-web-app,' k8s/helm/values.yaml
+         sed -i 's,tag:.*",tag: \"${{ '${{ github.run_number }}' }}\",' k8s/helm/values.yaml
+         echo "${{ '${{ secrets.KUBE_CONFIG }}' }}" > kubeconfig.backstage
+     - name: Helm tool installer
+       uses: Azure/setup-helm@v3    
+     - name: Deploy
+       run: |
+         helm upgrade --install backstage-teste k8s/helm/ -n backstage-ms
+       env:
+         KUBECONFIG: kubeconfig.backstage

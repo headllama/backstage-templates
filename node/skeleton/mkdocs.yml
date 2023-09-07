@@ -1,0 +1,8 @@
+site_name: ${{values.name_app}}
+system_name: ${{values.system_name}}
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

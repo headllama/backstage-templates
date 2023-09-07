@@ -1,0 +1,19 @@
+{
+  "name": "sysmap-ms-template",
+  "version": "1.0.0",
+  "description": "This is template of coe-tech sysmap",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "COE Tech",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  }
+}

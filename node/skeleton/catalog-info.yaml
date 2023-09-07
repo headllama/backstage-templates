@@ -1,0 +1,27 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.app_name }}
+  annotations:
+    github.com/project-slug: ${{"rfp-vivo-2023/" + values.app_name}}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: coe-tech
+  tags:
+      - frontend
+      - react
+  links:
+    - url: https://admin.example-org.com
+      title: Admin Dashboard
+      icon: dashboard
+      type: admin-dashboard
+spec:
+  type: website
+  lifecycle: development
+  owner: ${{values.owner}}
+  system: ${{values.system_name}}
+  # definition:
+  #   $text: https://petstore.swagger.io/v2/swagger.json
+  dependsOn:
+    - component:coe-bff-node
+  providesApis:
+     - login-api
