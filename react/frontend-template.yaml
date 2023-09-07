@@ -58,7 +58,7 @@ spec:
       input:
         allowedHosts: ['gitlab.coe.sysmap.com.br']
         description: ${{ parameters.app_name }}
-        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=${{ parameters.owner }}'
+        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
         repoVisibility: 'public'
 
     - id: register
