@@ -40,9 +40,9 @@ spec:
           description: The cluster of deploy service
           default: gke
           enum:
-            - gke
-            - aks
-            - eks
+            - KUBECONFIG_GKE
+            - KUBECONFIG_AKS
+            - KUBECONFIG_EKS
           enumNames:
             - 'GCP Kubernetes (gke)'
             - 'Azure Kubernetes (aks)'
@@ -66,6 +66,7 @@ spec:
           owner: ${{ parameters.owner }}
           system_name: ${{ parameters.system_name }}
           remote_url: ${{ steps.publish.output.remoteUrl }}
+          k8s_cluster: ${{ parameters.k8s_cluster }}
 
     - id: publish
       name: Publish
