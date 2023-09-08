@@ -1,3 +1,9 @@
+---
+id: ${{ values.site_name }}
+title: ${{ values.site_name }}
+description: All Docs
+---
+
 ## ${{ values.site_name }}
 
 This microservice is part of the system ${{ values.system_name }}
