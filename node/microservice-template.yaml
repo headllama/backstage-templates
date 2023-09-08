@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: node2-microservice-solution
-  title: Node2 - Microservice Solution
+  name: node-microservice-solution
+  title: Node - Microservice Solution
   description: Common Node Microservice Scaffolder
   tags:
     - recommended
