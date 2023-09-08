@@ -31,7 +31,12 @@ spec:
         machine_image:
           title: Machine Image
           type: string
-          description: Machine Image Ex. (debian-cloud/debian-11).
+          description: Image OS virtual machines
+          default: debian-cloud/debian-11
+          enum:
+            - debian-cloud/debian-11
+          enumNames:
+            - 'debian-11'
         machine_type:
           title: Machine Type
           type: string
@@ -39,8 +44,16 @@ spec:
           default: f1-micro
           enum:
             - f1-micro
+            - e2-standard-2
+            - e2-standard-4
+            - n1-standard-1
+            - n1-standard-2
           enumNames:
             - 'f1-micro'
+            - 'e2-standard-2'
+            - 'e2-standard-4'
+            - 'n1-standard-1'
+            - 'n1-standard-2'
         gcp_zone:
           title: GCP Zone
           type: string
@@ -48,8 +61,12 @@ spec:
           default: us-west1-a
           enum:
             - us-west1-a
+            - southamerica-east1-a
+            - europe-southwest1-a
           enumNames:
             - 'us-west1-a'
+            - 'southamerica-east1-a'
+            - 'europe-southwest1-a'
         system_name:
           title: System
           type: string
