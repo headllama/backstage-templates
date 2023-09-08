@@ -1,12 +1,12 @@
 ---
-id: ${{ values.site_name }}
-title: ${{ values.site_name }}
+id: Docs
+title: Docs
 description: All Docs
 ---
 
-## ${{ values.site_name }}
+## 
 
-This frontend is part of the system ${{ values.system_name }}
+This microservice is part of the system rfp-system
 
 ## Getting started
 
