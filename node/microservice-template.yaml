@@ -18,6 +18,7 @@ spec:
       required:
         - app_name
         - system_name
+        - k8s_cluster
       properties:
         app_name:
           title: Service Name
@@ -33,13 +34,19 @@ spec:
             allowedKinds:
               - System
             defaultKind: System
-        # repoUrl:
-        #   title: Repository Location
-        #   type: string
-        #   ui:field: RepoUrlPicker
-        #   ui:options:
-        #     allowedHosts:
-        #       - github.com
+        k8s_cluster:
+          title: Cluster Kubernetes
+          type: string
+          description: The cluster of deploy service
+          default: gke
+          enum:
+            - gke
+            - aks
+            - eks
+          enumNames:
+            - 'GCP Kubernetes (gke)'
+            - 'Azure Kubernetes (aks)'
+            - 'AWS Kubernetes (eks)'
         owner:
           title: Owner
           type: string
@@ -48,20 +55,6 @@ spec:
           ui:options:
             allowedKinds:
               - Group
-    # - title: Select dependencies
-    #   properties:
-    #     enable_postgress:
-    #       title: Enable Postgress integration
-    #       type: boolean
-    #       description: Whether or not to add Postgress dependencies
-    #     enable_mongodb:
-    #       title: Enable MongoDb integration
-    #       type: boolean
-    #       description: Whether or not to add MongoDb dependencies
-    #     enable_redis:
-    #       title: Enable Redis integration
-    #       type: boolean
-    #       description: Whether or not to add MongoDb dependencies
   steps:
     - id: fetch-base
       name: Fetch Base
@@ -72,6 +65,7 @@ spec:
           app_name: ${{ parameters.app_name }}
           owner: ${{ parameters.owner }}
           system_name: ${{ parameters.system_name }}
+          remote_url: ${{ steps.publish.output.remoteUrl }}
 
     - id: publish
       name: Publish
@@ -81,15 +75,6 @@ spec:
         description: ${{ parameters.app_name }}
         repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
         repoVisibility: 'public'
-
-    # - id: publish
-    #   name: Publish
-    #   action: publish:github
-    #   input:
-    #     allowedHosts: ['github.com']
-    #     description: ${{ parameters.app_name }}
-    #     repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=coe-tech'
-    #     repoVisibility: 'public'
 
     - id: register
       name: Register
