@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{values.machine_name}}
+  description: Virtual Machine
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+      - vm
+      - rfp
+      - gke
+spec:
+  type: Tool
+  lifecycle: ${{values.environment}}
+  owner: ${{values.owner}}
+  system: ${{values.system_name}}
+  consumesApis: ['${{values.consumedBy}}']

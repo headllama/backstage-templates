@@ -1,0 +1,131 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: VirtualMachine-Implement
+  title: Virtual Machine Implement Template
+  description: Common Resources Implement Scaffolder
+  tags:
+    - recommended
+    - coe-arq
+    - resources
+    - devops
+spec:
+  owner: squad-coe
+  type: service
+  parameters:
+    - title: Provide some simple information about resource
+      required:
+        - machine_name
+        - machine_type
+        - machine_image
+        - gcp_zone
+        - system_name
+        - owner
+        - environment
+      properties:
+        machine_name:
+          title: Machine Name
+          type: string
+          description: Machine Unique Name.
+          pattern: '^\S*[a-z\-]$'
+        machine_image:
+          title: Machine Image
+          type: string
+          description: Machine Image Ex. (debian-cloud/debian-11).
+          pattern: '^\S*[a-z\-]$'
+        machine_type:
+          title: Machine Type
+          type: string
+          description: Type of virtual machines
+          default: f1-micro
+          enum:
+            - f1-micro
+          enumNames:
+            - 'f1-micro'
+        gcp_zone:
+          title: GCP Zone
+          type: string
+          description: Zone of deploy resource
+          default: us-west1-a
+          enum:
+            - us-west1-a
+          enumNames:
+            - 'us-west1-a'
+        system_name:
+          title: System
+          type: string
+          description: System that its component is part of.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - System
+            defaultKind: System
+        consumedBy:
+          title: Consumed by Component
+          type: string
+          description: Component that its resource is consumed.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - Component
+            defaultKind: Component
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        environment:
+          title: Environment
+          type: string
+          description: Environment of deploy
+          default: production
+          enum:
+            - production
+            - development
+            - experimental
+          enumNames:
+            - 'Production'
+            - 'Development'
+            - 'Experimental'
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./vm
+        values:
+          machine_name: ${{ parameters.machine_name }}
+          machine_type: ${{ parameters.machine_type }}
+          machine_image: ${{ parameters.machine_image }}
+          gcp_zone: ${{ parameters.gcp_zone }}
+          owner: ${{ parameters.owner }}
+          system_name: ${{ parameters.system_name }}
+          consumedBy: ${{ parameters.consumedBy }}
+          environment: ${{ parameters.environment }}
+
+    - id: publish
+      name: Publish
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.coe.sysmap.com.br']
+        description: ${{ parameters.app_name }}
+        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
+        repoVisibility: 'public'
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
