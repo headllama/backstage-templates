@@ -1,9 +1,9 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: rfp-portal-admin
+  name: ${{ values.app_name }}
   annotations:
-    github.com/project-slug: rfp-vivo-2023/rfp-portal-admin
+    github.com/project-slug: ${{"rfp-vivo-2023/" + values.app_name}}
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: coe-tech
   tags:
@@ -17,6 +17,6 @@ metadata:
 spec:
   type: website
   lifecycle: production
-  owner: group:default/squad-coe
-  system: system:default/rfp-system
+  owner: ${{values.owner}}
+  system: ${{values.system_name}}
   consumesApis: ['component:rfp-service']

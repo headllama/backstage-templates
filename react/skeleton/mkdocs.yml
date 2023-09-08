@@ -1,6 +1,6 @@
-site_name: 'RFP Portal Web'
-system_name: 'rfp-system'
-repo_url: https://gitlab.coe.sysmap.com.br/rfp-vivo-2023/rfp-portal-admin
+site_name: ${{values.name_app}}
+system_name: ${{values.system_name}}
+repo_url: ${{values.remoteUrl}}
 edit_uri: edit/master/docs
 
 plugins:
