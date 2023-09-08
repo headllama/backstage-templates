@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "backstage.fullname" . }}
+  name: {{ include "sysmap-rfp.fullname" . }}
   labels:
-    {{- include "backstage.labels" . | nindent 4 }}
+    {{- include "sysmap-rfp.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "backstage.fullname" . }}
+    name: {{ include "sysmap-rfp.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

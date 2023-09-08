@@ -19,3 +19,4 @@ spec:
   lifecycle: production
   owner: ${{values.owner}}
   system: ${{values.system_name}}
+  consumesApis: ['component:rfp-service']
