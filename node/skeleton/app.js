@@ -1,6 +1,6 @@
-import express from 'express';
-import swaggerJSDoc from 'swagger-jsdoc';
-import { serve, setup } from 'swagger-ui-express';
+const express = require('express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,14 +18,14 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ['./routes/*.js'],
+  apis: ['./routes/*.js'], // Pasta onde estão definidos os endpoints da API
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-app.use('/api-docs', serve, setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Defina suas rotas da API abaixo
+// Defina suas rotas da API abaixo (exemplo)
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Olá, Mundo!' });
 });
