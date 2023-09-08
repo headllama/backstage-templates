@@ -1,17 +1,16 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ values.app_name }}
+  name: ${{values.app_name}}
   annotations:
-    github.com/project-slug: ${{"rfp-vivo-2023/" + values.app_name}}
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: coe-tech
+    backstage.io/kubernetes-id: rfp-vivo-2023
   tags:
       - frontend
       - react
   links:
-    - url: https://admin.example-org.com
-      title: Admin Dashboard
+    - url: https://frontreact.rfp.sysmap.dev
+      title: WebApp
       icon: dashboard
       type: admin-dashboard
 spec:
@@ -19,4 +18,4 @@ spec:
   lifecycle: production
   owner: ${{values.owner}}
   system: ${{values.system_name}}
-  consumesApis: ['component:rfp-service']
+  consumesApis: []

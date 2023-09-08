@@ -4,7 +4,7 @@ metadata:
   name: ${{values.app_name}}
   annotations:
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: coe-tech
+    backstage.io/kubernetes-id: rfp-vivo-2023
   tags:
       - backend
       - node

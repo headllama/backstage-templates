@@ -12,7 +12,7 @@ variables:
   GRYPE_CONTAINER: "alpine:latest"
   HELM_CONTAINER: "alpine/helm:latest"
 
-  KUBECONFIG_FILE: $KUBECONFIG_GKE
+  KUBECONFIG_FILE: ${{"$" + values.k8s_cluster}}
 
 stages:
   - build

@@ -18,6 +18,7 @@ spec:
       required:
         - app_name
         - system_name
+        - k8s_cluster
       properties:
         app_name:
           title: WebApp Name
@@ -33,6 +34,19 @@ spec:
             allowedKinds:
               - System
             defaultKind: System
+        k8s_cluster:
+          title: Cluster Kubernetes
+          type: string
+          description: The cluster of deploy service
+          default: gke
+          enum:
+            - KUBECONFIG_GKE
+            - KUBECONFIG_AKS
+            - KUBECONFIG_EKS
+          enumNames:
+            - 'GCP Kubernetes (gke)'
+            - 'Azure Kubernetes (aks)'
+            - 'AWS Kubernetes (eks)'
         owner:
           title: Owner
           type: string
@@ -51,6 +65,8 @@ spec:
           app_name: ${{ parameters.app_name }}
           owner: ${{ parameters.owner }}
           system_name: ${{ parameters.system_name }}
+          remote_url: ${{ steps.publish.output.remoteUrl }}
+          k8s_cluster: ${{ parameters.k8s_cluster }}
 
     - id: publish
       name: Publish

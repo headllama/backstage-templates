@@ -1,6 +1,6 @@
-site_name: ${{values.name_app}}
+site_name: ${{values.app_name}}
 system_name: ${{values.system_name}}
-repo_url: ${{values.remoteUrl}}
+repo_url: ${{values.remote_url}}
 edit_uri: edit/master/docs
 
 plugins:
