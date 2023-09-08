@@ -1,5 +1,5 @@
 provider "google" {
-  project     = "{{values.machine_name | lower}}"
+  project     = "${{values.machine_name}}"
   credentials = "./creds/serviceaccount.json"
 }
 
@@ -18,9 +18,9 @@ resource "google_compute_subnetwork" "default" {
 
 # Create a single Compute Engine instance
 resource "google_compute_instance" "default" {
-  name         = "{{values.machine_name}}"
-  machine_type = "{{values.machine_type}}"
-  zone         = "{{values.gcp_zone}}"
+  name         = "${{values.machine_name}}"
+  machine_type = "${{values.machine_type}}"
+  zone         = "${{values.gcp_zone}}"
   tags         = ["ssh"]
 
   boot_disk {
