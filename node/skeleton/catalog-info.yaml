@@ -1,9 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{ values.app_name }}
+  name: ${{values.app_name}}
   annotations:
-    github.com/project-slug: ${{"rfp-vivo-2023/" + values.app_name}}
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: coe-tech
   tags:
@@ -20,4 +19,6 @@ spec:
   lifecycle: production
   owner: ${{values.owner}}
   system: ${{values.system_name}}
-  apiConsumedBy: ['']
+  dependsOn: []
+  providesApis: []
+  apiConsumedBy: []

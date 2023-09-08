@@ -1,10 +1,10 @@
 ---
-id: ${{ values.site_name }}
-title: ${{ values.site_name }}
+id: ${{ values.app_name }}
+title: ${{ values.app_name }}
 description: All Docs
 ---
 
-## ${{ values.site_name }}
+## ${{ values.app_name }}
 
 This microservice is part of the system ${{ values.system_name }}
 

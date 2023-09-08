@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Swagger ${{values.app_name}} - OpenAPI 3.1
+  description: Api definitions
+servers:
+  - url: https://${{values.app_name}}.swagger.io/api/v3
+tags:
+  - name: hello
+    description: Everything about your persons
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /hello:
+    post:
+      tags:
+        - hello
+      summary: Send a Hello
+      description: Send a Hello
+      operationId: hello
+      requestBody:
+        description: Send a Hello
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hello'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Hello'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hello'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hello'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Hello'
+        '405':
+          description: Invalid input
+      security:
+        - hello_auth:
+            - write:hello
+            - read:hello
+
+components:
+  schemas:
+    Hello:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Hello message
+          example: Olá Mundo!
+      xml:
+        name: hello
