@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.app_name}}
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: rfp-vivo-2023
+  tags:
+      - backend
+      - java
+      - microservice
+spec:
+  type: service
+  lifecycle: production
+  owner: ${{values.owner}}
+  system: ${{values.system_name}}
+  providesApis: []
+  dependsOn: []
+  apiConsumedBy: []
