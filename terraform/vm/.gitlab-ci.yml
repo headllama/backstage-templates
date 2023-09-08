@@ -1,0 +1,20 @@
+variables:
+  PROJETO: "pipeline-terraform"
+
+# containers
+  TERRAFORM_CONTAINER: "hashicorp/terraform:1.5"
+
+stages:
+  - plan
+
+
+plan:
+  stage: plan
+  image: 
+    name: $TERRAFORM_CONTAINER
+    entrypoint: [""]
+  script:
+    - mkdir ./creds/
+    - echo "$GCP_CREDENTIAL" > ./creds/serviceaccount.json
+    - terraform init
+    - terraform plan
