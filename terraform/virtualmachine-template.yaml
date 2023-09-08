@@ -32,7 +32,6 @@ spec:
           title: Machine Image
           type: string
           description: Machine Image Ex. (debian-cloud/debian-11).
-          pattern: '^\S*[a-z\-]$'
         machine_type:
           title: Machine Type
           type: string
