@@ -1,0 +1,385 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Superdigital",
+  "classifications": [
+    "Common",
+    "Microservice Solution"
+  ],
+  "name": "Superdigital microservice solution",
+  "groupIdentity": "Superdigital.GlobalPlatform.Solution",
+  "identity": "Superdigital.GlobalPlatform.Solution",
+  "shortName": "sd-ms",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "namespace": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "fileRename": "ProjectName",
+      "replaces": "ProjectName",
+      "description": "Application assembly. Super prefix will be added automatically."
+    },
+    "app-name": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "Application unique name.  It is used for helm release name, superdigital application name. Domain prefix wil be added automatically, the domain will be used for kubernetes namespace, harbor project pipeline/release folder.",
+      "replaces": "AppNameTemplate",
+      "fileRename": "AppNameTemplate"
+    },
+    "domain": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "Backstage domain",
+      "replaces": "DomainTemplate"
+    },
+    "domain-prefix": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "Team domain prefix",
+      "replaces": "DomainPrefixTemplate"
+    },
+    "k8s-namespace": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "k8s namespace",
+      "replaces": "K8sNamespaceTemplate"
+    },
+    "system": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "System that its component is part of. It is used for pipeline/release folder",
+      "replaces": "SystemTemplate"
+    },
+    "fortify-app": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "The application name that this microservice belongs to.",
+      "replaces": "FortifyAppTemplate"
+    },
+    "team": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "Backstage team",
+      "replaces": "TeamTemplate"
+    },
+    "template": {
+      "type": "parameter",
+      "description": "Archtype for default entrypoint. There are these options: webapi, worker or hangfire. webapi is the default value",
+      "datatype": "choice",
+      "defaultValue": "webapi",
+      "replaces": "TemplateSelectedTemplate",
+      "choices": [
+        {
+          "choice": "webapi",
+          "description": "Create a WebApi project"
+        },
+        {
+          "choice": "worker",
+          "description": "Create a WorkerService project"
+        },
+        {
+          "choice": "hangfire",
+          "description": "Create a WorkerService project with Hangfire"
+        }
+      ]
+    },
+    "repository": {
+      "type": "parameter",
+      "isRequired": true,
+      "datatype": "string",
+      "description": "AzureDevops repository name",
+      "replaces": "RepoNameTemplate"
+    },
+    "silverback":{
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Wheater or not to configure Silverback dependencies",
+      "defaultValue": "false"
+    },
+    "mongodb":{
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Wheater or not to configure MongoDb dependencies",
+      "defaultValue": "false"
+    },
+    "redis":{
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Wheater or not to configure Redis dependencies",
+      "defaultValue": "false"
+    },
+    "ApiClientName": {
+      "type": "derived",
+      "valueSource": "namespace",
+      "fileRename": "ApiClientName",
+      "replaces": "ApiClientName",
+      "valueTransform": "RemoveDots"
+    },
+    "IsWebApi": {
+      "type": "computed",
+      "value": "(template == \"webapi\")"
+    },
+    "IsWorker": {
+      "type": "computed",
+      "value": "(template == \"worker\")"
+    },
+    "IsHangfire": {
+      "type": "computed",
+      "value": "(template == \"hangfire\")"
+    },
+    "ProjectSuffix": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "ProjectSuffix",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(template == \"webapi\")",
+            "value": "Api"
+          },
+          {
+            "condition": "(template == \"worker\")",
+            "value": "WorkerService"
+          },
+          {
+            "condition": "(template == \"hangfire\")",
+            "value": "HangfireServer"
+          }
+        ]
+      }
+    },
+    "EntrypointFullNamespace": {
+      "type": "generated",
+      "generator": "join",
+      "replaces": "EntrypointFullNamespace",
+      "fileRename": "EntrypointFullNamespace",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "const",
+            "value": "Super."
+          },
+          {
+            "type": "ref",
+            "value": "namespace"
+          },
+          {
+            "type": "const",
+            "value": "."
+          },
+          {
+            "type": "ref",
+            "value": "ProjectSuffix"
+          }
+        ]
+      }
+    },
+    "FullNamespace": {
+      "type": "generated",
+      "generator": "join",
+      "replaces": "FullNamespace",
+      "fileRename": "FullNamespace",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "const",
+            "value": "Super."
+          },
+          {
+            "type": "ref",
+            "value": "namespace"
+          }
+        ]
+      }
+    }
+  },
+  "forms": {
+    "RemoveDots": {
+      "identifier": "replace",
+      "pattern": "\\.",
+      "replacement": ""
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(IsWebApi)",
+          "exclude": [
+            "src/EntrypointFullNamespace/Worker.cs"
+          ]
+        },
+        {
+          "condition": "(IsWorker)",
+          "exclude": [
+            "src/EntrypointFullNamespace/SwaggerHostFactory.cs",
+            "src/EntrypointFullNamespace/Startup.cs",
+            "src/EntrypointFullNamespace/UseCases/**",
+            "docs/AppNameTemplate/api-client.md",
+            "src/FullNamespace.Application/UseCases/**",
+            "src/FullNamespace.Application/ErrorCatalog.cs",
+            "tests/FullNamespace.Application.Tests/ErrorCatalogApproval/**",
+            "src/libs/**",
+            ".config/dotnet-tools.json",
+            "helm/AppNameTemplate/templates/service.yaml",
+            "helm/AppNameTemplate/templates/route.yaml",
+            "helm/AppNameTemplate/templates/ingress.yaml"
+          ]
+        },
+        {
+          "condition": "(IsHangfire)",
+          "exclude": [
+            "src/EntrypointFullNamespace/SwaggerHostFactory.cs",
+            "src/EntrypointFullNamespace/Worker.cs",
+            "src/EntrypointFullNamespace/Startup.cs",
+            "src/EntrypointFullNamespace/UseCases/**",
+            "docs/AppNameTemplate/api-client.md",
+            "src/FullNamespace.Application/UseCases/**",
+            "src/FullNamespace.Application/ErrorCatalog.cs",
+            "tests/FullNamespace.Application.Tests/ErrorCatalogApproval/**",
+            "src/libs/**",
+            ".config/dotnet-tools.json",
+            "helm/AppNameTemplate/templates/service.yaml",
+            "helm/AppNameTemplate/templates/route.yaml",
+            "helm/AppNameTemplate/templates/ingress.yaml"
+          ]
+        },
+        {
+          "condition": "(!silverback)",
+          "exclude": [
+            "src/EntrypointFullNamespace/SilverbackEndpointConfigurator.cs"
+          ]
+        },
+        {
+          "condition": "(!mongodb)",
+          "exclude": [
+            "src/FullNamespace.Infrastructure/MongoMappingProfile.cs"
+          ]
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "path": "src/FullNamespace.Infrastructure/FullNamespace.Infrastructure.csproj"
+    },
+    {
+      "path": "src/FullNamespace.Application/FullNamespace.Application.csproj"
+    },
+    {
+      "path": "tests/FullNamespace.Application.Tests/FullNamespace.Application.Tests.csproj"
+    },
+    {
+      "path": "src/EntrypointFullNamespace/EntrypointFullNamespace.csproj"
+    },
+    {
+      "condition": "(IsWebApi)",
+      "path": "src/libs/EntrypointFullNamespace.Client/EntrypointFullNamespace.Client.csproj"
+    }
+  ],
+  "postActions": [
+    {
+      "description": "Add projects to solution.",
+      "manualInstructions": [
+        {
+          "text": "Add projects manually"
+        }
+      ],
+      "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+      "continueOnError": true
+    }
+  ],
+  "SpecialCustomOperations": {
+    "**/*.yaml": {
+      "operations": [
+        {
+          "type": "conditional",
+          "configuration": {
+            "if": [
+              "#if"
+            ],
+            "else": [
+              "#else"
+            ],
+            "elseif": [
+              "#elseif"
+            ],
+            "endif": [
+              "#endif"
+            ],
+            "actionableIf": [
+              "##if"
+            ],
+            "actionableElse": [
+              "##else"
+            ],
+            "actionableElseif": [
+              "##elseif"
+            ],
+            "actions": [
+              "uncomment",
+              "reduceComment"
+            ],
+            "trim": "true",
+            "wholeLine": "true",
+            "evaluator": "C++"
+          }
+        },
+        {
+          "type": "replacement",
+          "configuration": {
+            "original": "#",
+            "replacement": "",
+            "id": "uncomment"
+          }
+        },
+        {
+          "type": "replacement",
+          "configuration": {
+            "original": "##",
+            "replacement": "#",
+            "id": "reduceComment"
+          }
+        }
+      ]
+    },
+    "**/*.csproj": {
+      "operations": [
+        {
+          "type": "conditional",
+          "configuration": {
+            "actionableIf": [
+              "<!--#if"
+            ],
+            "actionableElse": [
+              "#else",
+              "<!--#else"
+            ],
+            "actionableElseif": [
+              "#elseif",
+              "<!--#elseif"
+            ],
+            "endif": [
+              "#endif",
+              "<!--#endif"
+            ],
+            "trim": "true",
+            "wholeLine": "true"
+          }
+        }
+      ]
+    }
+  }
+}

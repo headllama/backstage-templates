@@ -1,0 +1,107 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: dotnet-microservice-solution
+  title: .NET - Microservice Solution
+  description: Common .NET Microservice Scaffolder
+  tags:
+    - recommended
+    - coe-arq
+    - microservice
+    - dotnet
+    - webapi
+spec:
+  owner: squad-coe
+  type: service
+  parameters:
+    - title: Provide some simple information about default entrypoint
+      required:
+        - app_name
+        - system_name
+        - k8s_cluster
+      properties:
+        app_name:
+          title: Service Name
+          type: string
+          description: Application Unique Name.
+          pattern: '^\S*[a-z\-]$'
+        system_name:
+          title: System
+          type: string
+          description: System that its component is part of.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - System
+            defaultKind: System
+        k8s_cluster:
+          title: Cluster Kubernetes
+          type: string
+          description: The cluster of deploy service
+          default: gke
+          enum:
+            - KUBECONFIG_GKE
+            - KUBECONFIG_AKS
+            - KUBECONFIG_EKS
+          enumNames:
+            - 'GCP Kubernetes (gke)'
+            - 'Azure Kubernetes (aks)'
+            - 'AWS Kubernetes (eks)'
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          app_name: ${{ parameters.app_name }}
+          owner: ${{ parameters.owner }}
+          system_name: ${{ parameters.system_name }}
+          remote_url: ${{ steps.publish.output.remoteUrl }}
+          k8s_cluster: ${{ parameters.k8s_cluster }}
+
+    - id: Rename
+      name: Rename solution and project
+      action: fs:rename
+      input:
+        files:
+          - from: ./skeleton/FullNamespace.sln
+            to: ./skeleton/${{ parameters.app_name }}.sln
+          - from: ./skeleton/src/EntrypointFullNamespace/EntrypointFullNamespace.csproj
+            to: ./skeleton/src/${{ parameters.app_name }}/${{ parameters.app_name }}.csproj
+          - from: ./skeleton/src/FullNamespace.Application
+            to: ./skeleton/src/${{ parameters.app_name }}.Application
+          - from: ./skeleton/src/FullNamespace.Infrastructure
+            to: ./skeleton/src/${{ parameters.app_name }}.Infrastructure
+
+    - id: publish
+      name: Publish
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.coe.sysmap.com.br']
+        description: ${{ parameters.app_name }}
+        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
+        repoVisibility: 'public'
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}

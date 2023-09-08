@@ -1,0 +1,10 @@
+site_name: ${{values.app_name}}
+system_name: ${{values.system_name}}
+repo_url: ${{values.remote_url}}
+edit_uri: edit/master/docs
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Introduction: index.md

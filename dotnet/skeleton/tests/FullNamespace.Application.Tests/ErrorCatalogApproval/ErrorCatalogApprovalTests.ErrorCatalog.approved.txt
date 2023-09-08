@@ -1,0 +1,13 @@
+﻿# Error catalog
+
+
+
+## AddWeatherForecast
+
+| Code                           | Key                            | Message                                                      |
+|--------------------------------|--------------------------------|--------------------------------------------------------------|
+| CD-EMB-ADDWEATHER-01           | SummaryIsEmpty                 | Summary must no be empty                                     |
+| CD-EMB-ADDWEATHER-02           | DateIsEmpty                    | Date must not be empty                                       |
+| CD-EMB-ADDWEATHER-03           | DateLowerThanNow               | Date must be greathan than now                               |
+
+
