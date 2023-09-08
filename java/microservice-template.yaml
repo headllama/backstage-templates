@@ -74,10 +74,10 @@ spec:
       action: fs:rename
       input:
         files:
-          - from: ./skeleton/src/main/java/com/example/template/TemplateApplication.java
-            to: ./skeleton/src/main/java/com/${{ parameters.system_name }}/${{ parameters.app_name }}/${{ parameters.app_name }}Application.java
-          - from: ./skeleton/src/test/java/com/example/template/TemplateApplicationTests.java
-            to: ./skeleton/src/main/java/com/${{ parameters.system_name }}/${{ parameters.app_name }}/${{ parameters.app_name }}ApplicationTests.java
+          - from: ./src/main/java/com/example/template/TemplateApplication.java
+            to: ./src/main/java/com/${{ parameters.system_name }}/${{ parameters.app_name }}/${{ parameters.app_name }}Application.java
+          - from: ./src/test/java/com/example/template/TemplateApplicationTests.java
+            to: ./src/main/java/com/${{ parameters.system_name }}/${{ parameters.app_name }}/${{ parameters.app_name }}ApplicationTests.java
 
     - id: publish
       name: Publish

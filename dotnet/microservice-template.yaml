@@ -73,14 +73,14 @@ spec:
       action: fs:rename
       input:
         files:
-          - from: ./skeleton/FullNamespace.sln
-            to: ./skeleton/${{ parameters.app_name }}.sln
-          - from: ./skeleton/src/EntrypointFullNamespace/EntrypointFullNamespace.csproj
-            to: ./skeleton/src/${{ parameters.app_name }}/${{ parameters.app_name }}.csproj
-          - from: ./skeleton/src/FullNamespace.Application
-            to: ./skeleton/src/${{ parameters.app_name }}.Application
-          - from: ./skeleton/src/FullNamespace.Infrastructure
-            to: ./skeleton/src/${{ parameters.app_name }}.Infrastructure
+          - from: ./FullNamespace.sln
+            to: ./${{ parameters.app_name }}.sln
+          - from: ./src/EntrypointFullNamespace/EntrypointFullNamespace.csproj
+            to: ./src/${{ parameters.app_name }}/${{ parameters.app_name }}.csproj
+          - from: ./src/FullNamespace.Application
+            to: ./src/${{ parameters.app_name }}.Application
+          - from: ./src/FullNamespace.Infrastructure
+            to: ./src/${{ parameters.app_name }}.Infrastructure
 
     - id: publish
       name: Publish
