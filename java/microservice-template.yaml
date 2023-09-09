@@ -75,9 +75,9 @@ spec:
       input:
         files:
           - from: ./src/main/java/com/example/template/TemplateApplication.java
-            to: ./src/main/java/com/rfp/${{ parameters.app_name }}/${{ parameters.app_name }}Application.java
+            to: ./src/main/java/com/example/template/${{ parameters.app_name }}Application.java
           - from: ./src/test/java/com/example/template/TemplateApplicationTests.java
-            to: ./src/main/java/com/rfp/${{ parameters.app_name }}/${{ parameters.app_name }}ApplicationTests.java
+            to: ./src/main/java/com/example/template/${{ parameters.app_name }}ApplicationTests.java
 
     - id: publish
       name: Publish
