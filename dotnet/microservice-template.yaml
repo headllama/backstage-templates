@@ -77,7 +77,7 @@ spec:
             to: ./${{ parameters.app_name }}.sln
           - from: ./src/api/Template.csproj
             to: ./src/api/${{ parameters.app_name }}.csproj
-          - from: ./src/tests/TemplateTest.csproj
+          - from: ./src/tests/TemplateTests.csproj
             to: ./src/tests/${{parameters.app_name}}Test.csproj
 
     - id: publish
