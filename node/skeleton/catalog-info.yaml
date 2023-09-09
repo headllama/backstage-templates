@@ -17,6 +17,7 @@ metadata:
 spec:
   type: service
   lifecycle: production
+  owner: ${{values.owner}}
   dependsOn: []
   providesApis: []
   apiConsumedBy: []
