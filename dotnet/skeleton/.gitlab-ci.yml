@@ -13,8 +13,8 @@ variables:
   GRYPE_CONTAINER: "alpine:latest"
   HELM_CONTAINER: "alpine/helm:latest"
 
-  APP_DIR: "src/EntrypointFullNamespace"
-  TEST_DIR: "tests/FullNamespace.Application.Tests"
+  APP_DIR: "src/api"
+  TEST_DIR: "src/tests"
 
   KUBECONFIG_FILE: ${{"$" + values.k8s_cluster}}
 
