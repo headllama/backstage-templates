@@ -3,7 +3,7 @@ variables:
   NAMESPACE: ${{values.k8s_namespace}}
 
 # repos
-  REGISTRY: "registry.coe.sysmap.com.br/rfp-vivo-2023"
+  REGISTRY: "walber7"
 
   HELM_CONTAINER: "alpine/helm:latest"
 
@@ -20,4 +20,4 @@ helm-deploy:
   before_script:
     - export KUBECONFIG=${KUBECONFIG_FILE}  
   script:
-    - helm upgrade --install $PROJETO -n $NAMESPACE helm/ --create-namespace --dry-run
+    - helm upgrade --install $PROJETO -n $NAMESPACE . --create-namespace --dry-run
