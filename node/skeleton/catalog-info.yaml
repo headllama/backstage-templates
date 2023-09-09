@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.app_name}}
+  name: teste-devops
   annotations:
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: rfp-vivo-2023
@@ -10,15 +10,13 @@ metadata:
       - node
       - microservice
   links:
-    - url: https://admin.example-org.com
+    - url: https://frontreact.rfp.sysmap.dev
       title: Admin Dashboard
       icon: dashboard
       type: admin-dashboard
 spec:
   type: service
   lifecycle: production
-  owner: ${{values.owner}}
-  system: ${{values.system_name}}
   dependsOn: []
   providesApis: []
   apiConsumedBy: []
