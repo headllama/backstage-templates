@@ -1,5 +1,5 @@
 variables:
-  PROJETO: ${{values.app_name}}  
+  PROJETO: ${{values.service_name}}  
   NAMESPACE: ${{values.k8s_namespace}}
 
 # repos
