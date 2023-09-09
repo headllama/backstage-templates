@@ -21,6 +21,7 @@ spec:
         - system_name
         - owner
         - environment
+        - k8s_cluster
       properties:
         service_type:
           title: Service
@@ -63,6 +64,19 @@ spec:
             allowedKinds:
               - Component
             defaultKind: Component
+        k8s_cluster:
+          title: Cluster Kubernetes
+          type: string
+          description: The cluster of deploy service
+          default: gke
+          enum:
+            - KUBECONFIG_GKE
+            - KUBECONFIG_AKS
+            - KUBECONFIG_EKS
+          enumNames:
+            - 'GCP Kubernetes (gke)'
+            - 'Azure Kubernetes (aks)'
+            - 'AWS Kubernetes (eks)'            
         owner:
           title: Owner
           type: string
@@ -98,6 +112,7 @@ spec:
           system_name: ${{ parameters.system_name }}
           consumedBy: ${{ parameters.consumedBy }}
           environment: ${{ parameters.environment }}
+          k8s_cluster: ${{ parameters.k8s_cluster }}
 
     - id: publish
       name: Publish

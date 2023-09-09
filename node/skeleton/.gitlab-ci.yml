@@ -1,5 +1,5 @@
 variables:
-  PROJETO: ${{values.app_name}}
+  PROJETO: ${{values.service_name}}
   NAMESPACE_MS: "teste-pipeline"
   PORTA: "3000"
 
