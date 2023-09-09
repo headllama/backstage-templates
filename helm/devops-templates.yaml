@@ -19,7 +19,6 @@ spec:
         - service_name
         - k8s_namespace
         - system_name
-        - owner
         - environment
         - k8s_cluster
       properties:
