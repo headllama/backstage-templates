@@ -1,0 +1,124 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: devops-implement
+  title: DevOps Template
+  description: Common Resources Implement Scaffolder
+  tags:
+    - recommended
+    - coe-arq
+    - resources
+    - devops
+spec:
+  owner: squad-coe
+  type: service
+  parameters:
+    - title: Provide some simple information about resource
+      required:
+        - service_type
+        - service_name
+        - k8s_namespace
+        - system_name
+        - owner
+        - environment
+      properties:
+        service_type:
+          title: Service
+          type: string
+          description: Service to Deploy
+          default: 
+          enum:
+            - redis
+            - rabbitmq
+            - mongodb
+          enumNames:
+            - 'Redis'
+            - 'RabbitMQ'
+            - 'MongoDB'
+        service_name:
+          title: Service Name
+          type: string
+          description: Service Unique Name.
+          pattern: '^\S*[a-z\-]$'
+        k8s_namespace:
+          title: K8s Namespace
+          type: string
+          description: Kubernetes namespace to deploy.
+          pattern: '^\S*[a-z\-]$'
+        system_name:
+          title: System
+          type: string
+          description: System that its component is part of.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - System
+            defaultKind: System
+        consumedBy:
+          title: Consumed by Component
+          type: string
+          description: Component that its resource is consumed.
+          ui:field: EntityPicker
+          ui:options:
+            allowedKinds:
+              - Component
+            defaultKind: Component
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        environment:
+          title: Environment
+          type: string
+          description: Environment of deploy
+          default: production
+          enum:
+            - production
+            - development
+            - experimental
+          enumNames:
+            - 'Production'
+            - 'Development'
+            - 'Experimental'
+  steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ./redis
+        values:
+          service_name: ${{ parameters.service_name }}
+          service_type: ${{ parameters.service_type }}
+          k8s_namespace: ${{ parameters.k8s_namespace }}
+          owner: ${{ parameters.owner }}
+          system_name: ${{ parameters.system_name }}
+          consumedBy: ${{ parameters.consumedBy }}
+          environment: ${{ parameters.environment }}
+
+    - id: publish
+      name: Publish
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.coe.sysmap.com.br']
+        description: ${{ parameters.service_name }}
+        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.service_name }}&owner=rfp-vivo-2023'
+        repoVisibility: 'public'
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
