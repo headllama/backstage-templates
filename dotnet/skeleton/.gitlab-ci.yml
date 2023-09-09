@@ -104,5 +104,5 @@ deploy:
     - sed -i "s,tag:.*,tag:\ ${CI_PIPELINE_IID}," helm/values.yaml
     - sed -i "s,namespace:.*,namespace:\ ${NAMESPACE}," helm/values.yaml
     - sed -i "s,name:.*,name:\ ${PROJETO}," helm/Chart.yaml  
-    - helm upgrade --install --atomic ${PROJETO} helm/
+    - helm upgrade --install ${PROJETO} helm/ -n ${NAMESPACE}
 
