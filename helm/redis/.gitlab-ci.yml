@@ -20,4 +20,5 @@ helm-deploy:
   before_script:
     - export KUBECONFIG=${KUBECONFIG_FILE}  
   script:
+    - helm dependency build .
     - helm upgrade --install $PROJETO -n $NAMESPACE . --create-namespace --dry-run
