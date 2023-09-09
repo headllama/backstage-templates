@@ -3,7 +3,6 @@ kind: Component
 metadata:
   name: ${{values.app_name}}
   annotations:
-    backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: rfp-vivo-2023
   tags:
     - recommended
