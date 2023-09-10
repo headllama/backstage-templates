@@ -15,10 +15,10 @@ spec:
   owner: ${{values.owner}}
   system: ${{values.system_name}}
 ---
-apiVersion: backstage.io/v1alpha1
-kind: Location
-metadata:
-  name: ${{values.app_name + "-solution-data"}}
-spec:
-  targets:
-    - /src/EntrypointFullNamespace/catalog-info.yaml
+# apiVersion: backstage.io/v1alpha1
+# kind: Location
+# metadata:
+#   name: ${{values.app_name + "-solution-data"}}
+# spec:
+#   targets:
+#     - /src/EntrypointFullNamespace/catalog-info.yaml
