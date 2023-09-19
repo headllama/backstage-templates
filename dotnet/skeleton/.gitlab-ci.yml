@@ -71,6 +71,8 @@ docker build:
   image:
     name: $KANIKO_CONTAINER
     entrypoint: [""]
+  before_script:
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
   script:
     - mkdir -p /kaniko/.docker
     - echo "$REGISTRY_TOKEN" > /kaniko/.docker/config.json
@@ -86,6 +88,8 @@ docker verify:
   image: 
     name: $GRYPE_CONTAINER
     entrypoint: [""]
+  before_script:
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
   script:
     - apk add curl
     - curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
@@ -98,6 +102,7 @@ deploy:
     name: $HELM_CONTAINER
     entrypoint: [""]
   before_script:
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')
     - export KUBECONFIG=${KUBECONFIG_FILE}  
   script:
     - sed -i "s,repository:.*,repository:\ ${REGISTRY}\/${PROJETO}," helm/values.yaml
