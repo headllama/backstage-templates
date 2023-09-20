@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Template.Controllers
+namespace ${{ parameters.app_name }}.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -9,7 +9,7 @@ namespace Template.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         public WeatherForecastController()
         {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template", "src\api\Template.csproj", "{E1257668-AD0F-436E-8D5F-C7E7DCD5EFDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "${{ parameters.app_name }}", "src\api\${{ parameters.app_name }}.csproj", "{E1257668-AD0F-436E-8D5F-C7E7DCD5EFDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateTests", "src\tests\TemplateTests.csproj", "{2BF2C44D-3A27-47EA-9036-EC795CD54263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "${{ parameters.app_name }}Tests", "src\tests\${{ parameters.app_name }}Tests.csproj", "{2BF2C44D-3A27-47EA-9036-EC795CD54263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

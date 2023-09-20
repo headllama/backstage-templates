@@ -1,4 +1,4 @@
-namespace Template
+namespace ${{ parameters.app_name }}
 {
     public class WeatherForecast
     {

@@ -25,7 +25,7 @@ spec:
           title: Service Name
           type: string
           description: Application Unique Name.
-          pattern: '^\S*[a-z\-]$'
+          pattern: '^[a-zA-Z0-9]{3,50}$'
         system_name:
           title: System
           type: string
