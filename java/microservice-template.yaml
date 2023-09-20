@@ -44,10 +44,12 @@ spec:
             - KUBECONFIG_GKE
             - KUBECONFIG_AKS
             - KUBECONFIG_EKS
+            - KUBECONFIG_ONPREM
           enumNames:
             - 'GCP Kubernetes (gke)'
             - 'Azure Kubernetes (aks)'
             - 'AWS Kubernetes (eks)'
+            - 'On Premises'
         owner:
           title: Owner
           type: string

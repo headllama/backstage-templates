@@ -1,14 +1,15 @@
 variables:
   PROJETO: ${{values.app_name}}
-  NAMESPACE_MS: "teste-pipeline"
-  PORTA: "3000"
+  NAMESPACE: "teste-pipeline"
+  PORTA: "8081"
 
 # repos
   REGISTRY: "walber7"
 
 # containers
-  NODE_CONTAINER: "node:latest"
-  KANIKO_CONTAINER: "gcr.io/kaniko-project/executor:debug"
+  #MAVEN_CONTAINER: "openjdk:17-jdk-alpine"
+  MAVEN_CONTAINER: "maven:3.9.4-amazoncorretto-17-al2023"
+  KANIKO_CONTAINER: gcr.io/kaniko-project/executor:debug
   GRYPE_CONTAINER: "alpine:latest"
   HELM_CONTAINER: "alpine/helm:latest"
 
@@ -16,61 +17,46 @@ variables:
 
 stages:
   - build
-  # - unit-test
+  - unit-test
   - sast
   - kaniko
   - grype
   - deploy
 
-
 build:
   stage: build
   image: 
-    name: $NODE_CONTAINER
+    name: $MAVEN_CONTAINER
     entrypoint: [""]
   script:
-    - npm install
-#  artifacts:
-#    paths:
-#      - node_modules
+    - mvn clean compile
 
-# unit-test:
-#   needs: ["build"]
-#   stage: unit-test
-#   image: 
-#     name: $NODE_CONTAINER
-#     entrypoint: [""]
-#   script:
-#     - npm i
-#     - npm run test
-# #   artifacts:
-# #     paths:
-# #       - node_modules
-# # #    expire_in: 1 day
+unit-test:
+  stage: unit-test
+  image: 
+    name: $MAVEN_CONTAINER
+    entrypoint: [""]
+  script:
+    - mvn test
 
 
-sonarqube_scan:
-  # needs: ["unit-test"]
+sast:
   stage: sast
   image: 
-    name: $NODE_CONTAINER
+    name: $MAVEN_CONTAINER
     entrypoint: [""]
   script:
-    - sed -i "s,SONAR-URL,${SONARQUBE_URL}," ./sonar-project.js
-    - sed -i "s,SONAR-TOKEN,${SONARQUBE_TOKEN}," ./sonar-project.js
-    - cat ./sonar-project.js
-    - npm i
-    - npm install -D sonarqube-scanner
-    - npm run sonar
+    - mvn clean verify sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_TOKEN}
+
 
 docker build:
-  needs: ["sonarqube_scan"]
+#  needs: ["build"]
   stage: kaniko
   image:
     name: $KANIKO_CONTAINER
     entrypoint: [""]
   before_script:
-    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')
   script:
     - mkdir -p /kaniko/.docker
     - echo "$REGISTRY_TOKEN" > /kaniko/.docker/config.json
@@ -80,19 +66,18 @@ docker build:
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "$REGISTRY/$PROJETO:$CI_PIPELINE_IID"
 
-docker verify:
+grype:
   needs: ["docker build"]
   stage: grype
   image: 
     name: $GRYPE_CONTAINER
     entrypoint: [""]
   before_script:
-    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')
   script:
     - apk add curl
     - curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
     - grype $REGISTRY/$PROJETO:$CI_PIPELINE_IID
-
 
 deploy:
   stage: deploy
@@ -100,10 +85,11 @@ deploy:
     name: $HELM_CONTAINER
     entrypoint: [""]
   before_script:
-    - export KUBECONFIG=${KUBECONFIG_FILE}  
-    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
+    - export KUBECONFIG=${KUBECONFIG_FILE} 
+    - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')
   script:
     - sed -i "s,repository:.*,repository:\ ${REGISTRY}\/${PROJETO}," helm/values.yaml
     - sed -i "s,tag:.*,tag:\ ${CI_PIPELINE_IID}," helm/values.yaml
+    - sed -i "s,namespace:.*,namespace:\ ${NAMESPACE}," helm/values.yaml
     - sed -i "s,name:.*,name:\ ${PROJETO}," helm/Chart.yaml  
-    - helm upgrade --install $PROJETO ./helm/ -n ${NAMESPACE_MS} --create-namespace
+    - helm upgrade --install -n ${NAMESPACE} $PROJETO helm/

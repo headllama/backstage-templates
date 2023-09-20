@@ -1,0 +1,24 @@
+variables:
+  PROJETO: ${{values.service_name}}  
+  NAMESPACE: ${{values.k8s_namespace}}
+
+# repos
+  REGISTRY: "walber7"
+
+  HELM_CONTAINER: "alpine/helm:latest"
+
+  KUBECONFIG_FILE: ${{"$" + values.k8s_cluster}}
+
+stages:
+  - helm-deploy
+
+helm-deploy:
+  stage: helm-deploy
+  image: 
+    name: $HELM_CONTAINER
+    entrypoint: [""]
+  before_script:
+    - export KUBECONFIG=${KUBECONFIG_FILE}  
+  script:
+    - helm dependency build .
+    - helm upgrade --install $PROJETO -n $NAMESPACE . --create-namespace --dry-run

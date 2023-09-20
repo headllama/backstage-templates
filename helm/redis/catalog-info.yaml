@@ -1,14 +1,13 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: teste-devops
+  name: helm
   annotations:
-    backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: rfp-vivo-2023
   tags:
-      - backend
-      - node
-      - microservice
+      - devops
+      - helm
+      - k8s
   links:
     - url: https://frontreact.rfp.sysmap.dev
       title: Admin Dashboard

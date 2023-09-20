@@ -43,10 +43,12 @@ spec:
             - KUBECONFIG_GKE
             - KUBECONFIG_AKS
             - KUBECONFIG_EKS
+            - KUBECONFIG_ONPREM
           enumNames:
             - 'GCP Kubernetes (gke)'
             - 'Azure Kubernetes (aks)'
             - 'AWS Kubernetes (eks)'
+            - 'On Premises'
         owner:
           title: Owner
           type: string
@@ -75,9 +77,7 @@ spec:
         files:
           - from: ./Template.sln
             to: ./${{ parameters.app_name }}.sln
-          - from: ./src/api/Template.csproj
-            to: ./src/api/${{ parameters.app_name }}.csproj
-          - from: ./src/tests/TemplateTest.csproj
+          - from: ./src/tests/TemplateTests.csproj
             to: ./src/tests/${{parameters.app_name}}Test.csproj
 
     - id: publish
