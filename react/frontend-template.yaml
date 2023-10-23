@@ -72,11 +72,11 @@ spec:
 
     - id: publish
       name: Publish
-      action: publish:gitlab
+      action: publish:github
       input:
-        allowedHosts: ['gitlab.coe.sysmap.com.br']
+        allowedHosts: ['github.com']
         description: ${{ parameters.app_name }}
-        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
         repoVisibility: 'public'
 
     - id: register
