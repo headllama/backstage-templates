@@ -18,7 +18,7 @@ on:
 jobs:
   build_job:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: backstage-actions
     steps:
     - uses: actions/checkout@v2.4.0    
     - uses: actions/setup-node@v2
@@ -35,7 +35,7 @@ jobs:
 #         retention-days: 1
 
   sonarqube:
-    runs-on: ubuntu-latest
+    runs-on: backstage-actions
     needs: [build_job]
     steps:
       - uses: actions/checkout@v2.4.0
@@ -47,7 +47,7 @@ jobs:
         
   kaniko:
    name: kaniko_push
-   runs-on: ubuntu-latest
+   runs-on: backstage-actions
    needs: [build_job]
    steps:
    - uses: actions/checkout@v2.4.0
