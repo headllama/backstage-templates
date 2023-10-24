@@ -5,7 +5,8 @@ metadata:
   annotations:
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: rfp-vivo-2023
-    github.com/project-slug: ${{"headllama/" + values.app_name}}
+    github.com/project-slug: ${{"headllamacoe/" + values.app_name}}
+    sonarqube.org/project-key: ${{"$" + "{{ secrets.SONAR_TOKEN }}"}}
   tags:
       - frontend
       - react
