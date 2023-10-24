@@ -39,6 +39,12 @@ jobs:
     needs: [build_job]
     steps:
       - uses: actions/checkout@v2.4.0
+      - name: create env file
+        id: env
+        run: |
+          echo "$SONARQUBE_FILE" > ./sonar-project.js
+        env:
+          SONARQUBE_FILE : ${{secrets.SONARQUBE_FILE}}   
       - name: Official SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v1.2.0
         env:
