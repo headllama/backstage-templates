@@ -1,10 +1,5 @@
-const sonarqubeScanner = import('sonarqube-scanner');
+sonar.projectKey=${{values.app_name}}
 
-sonarqubeScanner({
-  serverUrl: 'SONAR-URL',
-  token: "SONAR-TOKEN",
-       options : {
-       'sonar.sources': '.',
-       'sonar.inclusions' : 'src/**' 
-       },
-}, () => {});
+# relative paths to source directories. More details and properties are described
+# in https://docs.sonarqube.org/latest/project-administration/narrowing-the-focus/ 
+sonar.sources=.
