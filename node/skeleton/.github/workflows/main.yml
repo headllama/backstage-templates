@@ -60,6 +60,15 @@ jobs:
     needs: [kaniko]
     steps:
      - uses: actions/checkout@v2.4.0
+     - name: Import Secrets
+       id: import-secrets
+       uses: hashicorp/vault-action@v2
+       with:
+        url: https://vault.mycompany.com:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        caCertificate: ${{ secrets.VAULT_CA_CERT }}
+        secrets: |
+            coe-secrets/backstage kubeconfig | KUBECONFIG
      - name: Set short git commit SHA
        id: vars
        run: |
@@ -67,7 +76,7 @@ jobs:
          echo "::set-output name=short_sha::$calculatedSha"
          sed -i 's,$REGISTRY.*,walber7/node-web-app,' k8s/helm/values.yaml
          sed -i 's,tag:.*",tag: \"${{ '${{ github.run_number }}' }}\",' k8s/helm/values.yaml
-         echo "${{ '${{ secrets.KUBE_CONFIG }}' }}" > kubeconfig.backstage
+         echo "${{ '${{ steps.import-secrets.outputs.KUBECONFIG }}' }}" | base64 -d > kubeconfig.backstage
      - name: Helm tool installer
        uses: Azure/setup-helm@v3    
      - name: Deploy
