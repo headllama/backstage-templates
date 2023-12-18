@@ -64,9 +64,8 @@ jobs:
        id: import-secrets
        uses: hashicorp/vault-action@v2
        with:
-        url: https://vault.mycompany.com:8200
+        url: ${{ secrets.VAULT_URL }}
         token: ${{ secrets.VAULT_TOKEN }}
-        caCertificate: ${{ secrets.VAULT_CA_CERT }}
         secrets: |
             coe-secrets/backstage kubeconfig | KUBECONFIG
      - name: Set short git commit SHA
