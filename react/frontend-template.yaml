@@ -76,7 +76,7 @@ spec:
       input:
         allowedHosts: ['github.com']
         description: ${{ parameters.app_name }}
-        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllamacoe'
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=coe-tech'
         repoVisibility: 'public'
 
     - id: register
