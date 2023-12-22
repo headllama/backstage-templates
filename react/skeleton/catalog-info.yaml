@@ -5,7 +5,7 @@ metadata:
   annotations:
     backstage.io/techdocs-ref: dir:.
     backstage.io/kubernetes-id: rfp-vivo-2023
-    github.com/project-slug: ${{"headllamacoe/" + values.app_name}}
+    github.com/project-slug: ${{"coe-tech/" + values.app_name}}
     sonarqube.org/project-key: ${{values.app_name}}
   tags:
       - frontend
