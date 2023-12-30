@@ -4,7 +4,8 @@ metadata:
   name: ${{values.app_name}}
   annotations:
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: rfp-vivo-2023
+    backstage.io/kubernetes-id: ${{"coe-tech/" + values.app_name}}
+    backstage.io/kubernetes-namespace: dice-space
     github.com/project-slug: ${{"coe-tech/" + values.app_name}}
     sonarqube.org/project-key: ${{values.app_name}}
   tags:

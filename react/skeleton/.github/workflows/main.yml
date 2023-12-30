@@ -4,7 +4,8 @@ name: Backstage ms deploy
 env:
   PROJETO: "backstage-coe"
   EMAIL: "walber.silva@sysmap.com.br"
-  NAMESPACE: "backstage"
+  NAMESPACE: "backstage-ms"
+  REPO: walber7
 
 # Hooks
 # on é obrigatório
@@ -89,15 +90,13 @@ jobs:
      - name: Set short git commit SHA
        id: vars
        run: |
-         calculatedSha=$(git rev-parse --short ${{ github.sha }})
-         echo "::set-output name=short_sha::$calculatedSha"
-         sed -i 's,$REGISTRY.*,walber7/react-web-app,' helm/values.yaml
+         sed -i 's,$REGISTRY.*,${{ env.REPO }}/${{ env.PROJETO }},' helm/values.yaml
          sed -i 's,tag:.*",tag: \"${{ github.run_number }}\",' helm/values.yaml
          echo "${{ env.KUBECONFIG-VAULT }}" | base64 -d > kubeconfig.backstage
      - name: Helm tool installer
        uses: Azure/setup-helm@v3    
      - name: Deploy
        run: |
-         helm upgrade --install backstage-teste helm/ -n backstage-ms
+         helm upgrade --install backstage-teste helm/ -n ${{ env.NAMESPACE }}
        env:
          KUBECONFIG: kubeconfig.backstage
