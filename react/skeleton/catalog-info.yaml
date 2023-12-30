@@ -4,7 +4,7 @@ metadata:
   name: ${{values.app_name}}
   annotations:
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: ${{values.app_name}}
+    backstage.io/kubernetes-id: coe-tech
     backstage.io/kubernetes-namespace: backstage-ms
     github.com/project-slug: ${{"coe-tech/" + values.app_name}}
     gitlab.com/project-slug: ${{"backstage-apis/" + values.app_name}}
@@ -18,7 +18,7 @@ metadata:
       icon: dashboard
       type: admin-dashboard
 spec:
-  type: website
+  type: service
   lifecycle: production
   owner: ${{values.owner}}
   system: ${{values.system_name}}
