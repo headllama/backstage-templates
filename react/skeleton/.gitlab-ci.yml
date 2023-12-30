@@ -1,6 +1,6 @@
 variables:
   PROJETO: ${{values.app_name}}
-  NAMESPACE_MS: "teste-pipeline"
+  NAMESPACE_MS: "backstage-ms"
   PORTA: "3000"
 
 # repos
@@ -12,7 +12,7 @@ variables:
   GRYPE_CONTAINER: "alpine:latest"
   HELM_CONTAINER: "alpine/helm:latest"
 
-  KUBECONFIG_FILE: ${{"$" + values.k8s_cluster}}
+  KUBECONFIG_FILE: $KUBECONFIG
 
 stages:
   - build
@@ -73,7 +73,7 @@ docker build:
     - export PROJETO=$(echo "$PROJETO" | tr '[:upper:]' '[:lower:]')    
   script:
     - mkdir -p /kaniko/.docker
-    - echo "$REGISTRY_TOKEN" > /kaniko/.docker/config.json
+    - echo "${REGISTRY_TOKEN}" > /kaniko/.docker/config.json
     - >-
       /kaniko/executor
       --context "${CI_PROJECT_DIR}"
