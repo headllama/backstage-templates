@@ -72,11 +72,11 @@ spec:
 
     - id: publish
       name: Publish
-      action: publish:github
+      action: publish:gitlab
       input:
-        allowedHosts: ['github.com']
+        allowedHosts: ['gitlab.coe.sysmap.dev']
         description: ${{ parameters.app_name }}
-        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=coe-tech'
+        repoUrl: 'gitlab.coe.sysmap.dev?repo=${{ parameters.app_name }}&owner=backstage-apis'
         repoVisibility: 'private'
 
     - id: register
