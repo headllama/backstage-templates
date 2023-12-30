@@ -90,13 +90,13 @@ jobs:
      - name: Set short git commit SHA
        id: vars
        run: |
-         sed -i 's,$REGISTRY.*,${{ env.REPO }}/${{ env.PROJETO }},' helm/values.yaml
-         sed -i 's,tag:.*",tag: \"${{ github.run_number }}\",' helm/values.yaml
-         echo "${{ env.KUBECONFIG-VAULT }}" | base64 -d > kubeconfig.backstage
+         sed -i 's,$REGISTRY.*,${{ '${{ env.REPO }}' }}/${{ '${{ env.PROJETO }}' }},' helm/values.yaml
+         sed -i 's,tag:.*",tag: \"${{ '${{ github.run_number }}' }}\",' helm/values.yaml
+         echo "${{ '${{ env.KUBECONFIG-VAULT }}' }}" | base64 -d > kubeconfig.backstage
      - name: Helm tool installer
        uses: Azure/setup-helm@v3    
      - name: Deploy
        run: |
-         helm upgrade --install backstage-teste helm/ -n ${{ env.NAMESPACE }}
+         helm upgrade --install backstage-teste helm/ -n ${{ '${{ env.NAMESPACE }}' }}
        env:
          KUBECONFIG: kubeconfig.backstage
