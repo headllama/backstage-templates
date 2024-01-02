@@ -4,7 +4,11 @@ metadata:
   name: teste-devops
   annotations:
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: coe-tech 
+    backstage.io/kubernetes-id: coe-tech
+    backstage.io/kubernetes-namespace: backstage-ms
+    github.com/project-slug: ${{"coe-tech/" + values.app_name}}
+    gitlab.com/project-slug: ${{"backstage-apis/" + values.app_name}}
+    sonarqube.org/project-key: ${{values.app_name}}
   tags:
       - backend
       - node
@@ -18,6 +22,5 @@ spec:
   type: service
   lifecycle: production
   owner: ${{values.owner}}
-  dependsOn: []
-  providesApis: []
-  apiConsumedBy: []
+  system: ${{values.system_name}}
+  consumesApis: []
