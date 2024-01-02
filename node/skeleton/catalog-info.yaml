@@ -4,7 +4,7 @@ metadata:
   name: teste-devops
   annotations:
     backstage.io/techdocs-ref: dir:.
-    backstage.io/kubernetes-id: rfp-vivo-2023
+    backstage.io/kubernetes-id: coe-tech 
   tags:
       - backend
       - node
