@@ -4,6 +4,7 @@ metadata:
   name: {{ include "sysmap-rfp.fullname" . }}
   labels:
     {{- include "sysmap-rfp.labels" . | nindent 4 }}
+    backstage.io/kubernetes-id: coe-tech
 spec:
   type: {{ .Values.service.type }}
   ports:

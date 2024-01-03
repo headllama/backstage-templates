@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import logo from './assets/logo_sysmap.svg'
 import './App.css'
-
+// TODO Adicionar label pelo helm values
+// TODO Configurar sonarqube
 function App() {
   const [count, setCount] = useState(0)
 
