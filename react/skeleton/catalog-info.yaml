@@ -10,8 +10,6 @@ metadata:
     gitlab.com/project-slug: ${{"backstage-apis/" + values.app_name}}
     dev.azure.com/project-repo: ${{"backstage-apis/" + values.app_name}}
     sonarqube.org/project-key: ${{values.app_name}}
-    grafana/dashboard-selector: prometheus-mixin
-    grafana/overview-dashboard: 'https://produtividade.sysmap.solutions/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s'
   tags:
       - frontend
       - react
