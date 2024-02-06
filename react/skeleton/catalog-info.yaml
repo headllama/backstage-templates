@@ -22,5 +22,5 @@ spec:
   type: service
   lifecycle: production
   owner: ${{values.owner}}
-  system: ${{values.system_name}}
+  # system: ${{values.system_name}}
   consumesApis: []
