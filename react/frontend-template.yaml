@@ -17,38 +17,39 @@ spec:
     - title: Provide some simple information about default entrypoint
       required:
         - app_name
-        - system_name
-        - k8s_cluster
+        - owner
+        # - system_name
+        # - k8s_cluster
       properties:
         app_name:
           title: WebApp Name
           type: string
           description: Application Unique Name.
           pattern: '^\S*[a-z\-]$'
-        system_name:
-          title: System
-          type: string
-          description: System that its component is part of.
-          ui:field: EntityPicker
-          ui:options:
-            allowedKinds:
-              - System
-            defaultKind: System
-        k8s_cluster:
-          title: Cluster Kubernetes
-          type: string
-          description: The cluster of deploy service
-          default: gke
-          enum:
-            - KUBECONFIG_GKE
-            - KUBECONFIG_AKS
-            - KUBECONFIG_EKS
-            - KUBECONFIG_ONPREM
-          enumNames:
-            - 'GCP Kubernetes (gke)'
-            - 'Azure Kubernetes (aks)'
-            - 'AWS Kubernetes (eks)'
-            - 'On Premises'
+        # system_name:
+        #   title: System
+        #   type: string
+        #   description: System that its component is part of.
+        #   ui:field: EntityPicker
+        #   ui:options:
+        #     allowedKinds:
+        #       - System
+        #     defaultKind: System
+        # k8s_cluster:
+        #   title: Cluster Kubernetes
+        #   type: string
+        #   description: The cluster of deploy service
+        #   default: gke
+        #   enum:
+        #     - KUBECONFIG_GKE
+        #     - KUBECONFIG_AKS
+        #     - KUBECONFIG_EKS
+        #     - KUBECONFIG_ONPREM
+        #   enumNames:
+        #     - 'GCP Kubernetes (gke)'
+        #     - 'Azure Kubernetes (aks)'
+        #     - 'AWS Kubernetes (eks)'
+        #     - 'On Premises'
         owner:
           title: Owner
           type: string
@@ -74,7 +75,7 @@ spec:
       name: Publish
       action: publish:gitlab
       input:
-        allowedHosts: ['gitlab.coe.sysmap.dev']
+        allowedHosts: ['gitlab.coe.sysmap.dev', 'github.com']
         description: ${{ parameters.app_name }}
         repoUrl: 'gitlab.coe.sysmap.dev?repo=${{ parameters.app_name }}&owner=backstage-apis'
         repoVisibility: 'private'
