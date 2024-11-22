@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: create-dotNet-app-template
+  name: create-dotNet-app-templatee
   title: .Net App Template - WALBER
   description: Crie um novo projeto .Net
   tags:
