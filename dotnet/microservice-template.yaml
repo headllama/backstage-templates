@@ -32,19 +32,19 @@ spec:
             ui:options:
               allowedKinds:
                 - User
-            defaultValue: user:github/${{identity.githubLogin}}
+            defaultValue: github/${{identity.githubLogin}}
       - title: Nome do Repositório
         required:
           - repoUrl
         properties:
-          host:
-            title: Host
-            type: string
-            default: github.com
-            enum:
-              - github.com
-            readOnly: true
           repoUrl:
+            title: Repository Location
+            type: string
+            ui:field: RepoUrlPicker
+            ui:options:
+              allowedHosts:
+                - github.com
+          owner:
             title: Organization
             type: string
             default: coe-tech
@@ -71,7 +71,7 @@ spec:
         allowedHosts:
           - github.com
         description: This is ${{ parameters.app_name }}
-        repoUrl: https://github.com/${{ parameters.host }}/${{ parameters.repoUrl }}
+        repoUrl: ${{ parameters.repoUrl }}
         repoVisibility: private
     - id: register
       name: Register
