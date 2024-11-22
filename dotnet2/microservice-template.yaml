@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: create-dotNet-app-template
-  title: .Net App Template - WALBER
+  title: .Net App Template - WALBER 2
   description: Crie um novo projeto .Net
   tags:
     - dotnet
@@ -12,10 +12,10 @@ spec:
   parameters:
     - title: Provide some simple information
       required:
-        - component_id
+        - app_name
         - owner
       properties:
-        component_id:
+        app_name:
           title: Nome
           type: string
           description: Nome do componente
@@ -33,17 +33,17 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
-    - title: Choose a location
-      required:
-        - repoUrl
-      properties:
-        repoUrl:
-          title: Repository Location
-          type: string
-          ui:field: RepoUrlPicker
-          ui:options:
-            allowedHosts:
-              - github.com
+#    - title: Choose a location
+#      required:
+#        - repoUrl
+#      properties:
+#        repoUrl:
+#          title: Repository Location
+#          type: string
+#          ui:field: RepoUrlPicker
+#          ui:options:
+#            allowedHosts:
+#              - github.com
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -62,12 +62,10 @@ spec:
       name: Publish
       action: publish:github
       input:
-        allowedHosts:
-          - github.com
-        description: This is ${{ parameters.component_id }}
-        repoUrl: ${{ parameters.repoUrl }}
-#        repoVisibility: private
-
+        allowedHosts: ['github.com']
+        description: ${{ parameters.app_name }}
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
+        repoVisibility: 'public'
     - id: register
       name: Register
       action: catalog:register

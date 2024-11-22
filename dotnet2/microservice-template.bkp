@@ -1,0 +1,81 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-dotNet-app-template
+  title: .Net App Template - WALBER
+  description: Crie um novo projeto .Net
+  tags:
+    - dotnet
+spec:
+  owner: Junto Seguros
+  type: service
+  parameters:
+      - title: Preencha os campos abaixo
+        required:
+          - app_name
+          - owner
+        properties:
+          app_name:
+            title: Nome do projeto
+            type: string
+            description: Nome do projeto
+            ui:field: EntityNamePicker
+          description:
+            title: Descrição
+            type: string
+            description: Descreva seu projeto
+          owner:
+            title: Proprietário
+            type: string
+            description: Proprietário do Projeto
+            ui:field: OwnerPicker
+            ui:options:
+              allowedKinds:
+                - User
+            defaultValue: github/${{identity.githubLogin}}
+#      - title: Nome do Repositório
+#        required:
+#          - organization
+#        properties:      
+#          organization:
+#            title: Organization
+#            type: string
+#            default: GitJMSeguradora
+#            enum:
+#              - GitJMSeguradora
+#            readOnly: true
+  steps:
+    - id: template
+      name: Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
+        values:
+          app_name: ${{ parameters.app_name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.host }}
+          owner: ${{ parameters.owner }}
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts:
+          - github.com
+        description: This is ${{ parameters.app_name }}
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
+#        repoVisibility: private
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /skeleton/catalog-info.yaml
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
