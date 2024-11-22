@@ -65,7 +65,7 @@ spec:
           - github.com
         description: This is ${{ parameters.app_name }}
         repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
-        repoVisibility: private
+#        repoVisibility: private
     - id: register
       name: Register
       action: catalog:register
