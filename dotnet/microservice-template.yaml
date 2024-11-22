@@ -51,9 +51,6 @@ spec:
             enum:
               - coe-tech
             readOnly: true
-            ui:options:
-              allowedHosts:
-                - github.com
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -65,7 +62,7 @@ spec:
         values:
           app_name: ${{ parameters.app_name }}
           description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          destination: ${{ parameters.repoUrl }}
           owner: ${{ parameters.owner }}
     - id: publish
       name: Publish
