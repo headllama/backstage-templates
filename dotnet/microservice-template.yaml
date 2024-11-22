@@ -44,13 +44,13 @@ spec:
             enum:
               - github.com
             readOnly: true
-          repoUrl:
-            title: Organization
-            type: string
-            default: coe-tech
-            enum:
-              - coe-tech
-            readOnly: true
+#          repoUrl:
+#            title: Organization
+#            type: string
+#            default: coe-tech
+#            enum:
+#              - coe-tech
+#            readOnly: true
   steps:
     - id: template
       name: Fetch Skeleton + Template
