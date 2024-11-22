@@ -51,6 +51,9 @@ spec:
             enum:
               - headllama
             readOnly: true
+			ui:options:
+              allowedHosts:
+                - github.com
     steps:
       - id: template
         name: Fetch Skeleton + Template
