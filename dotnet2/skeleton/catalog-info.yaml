@@ -6,7 +6,7 @@ metadata:
   description: ${{values.description | dump}}
   {%- endif %}
   annotations:
-    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+    github.com/project-slug: headllama/${{ parameters.app_name }}
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service
