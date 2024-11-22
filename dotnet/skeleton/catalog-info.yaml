@@ -1,10 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.app_name | dump}}
-  {%- if values.description %}
+  name: ${{values.component_id | dump}}
   description: ${{values.description | dump}}
-  {%- endif %}
   annotations:
     github.com/project-slug: headllama/${{ values.app_name }}
     backstage.io/techdocs-ref: dir:.
