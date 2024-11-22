@@ -64,7 +64,7 @@ spec:
         allowedHosts:
           - github.com
         description: This is ${{ parameters.app_name }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=coe-tech'
         repoVisibility: private
     - id: register
       name: Register
