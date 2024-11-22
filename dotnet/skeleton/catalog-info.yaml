@@ -1,24 +1,14 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.app_name}}
+  name: ${{values.app_name | dump}}
+  {%- if values.description %}
+  description: ${{values.description | dump}}
+  {%- endif %}
   annotations:
-    backstage.io/techdocs-ref: dir:..
-    coe/domain: DomainTemplate
-    coe/domain-prefix: DomainPrefixTemplate
-    coe/k8s-namespace: K8sNamespaceTemplate
-  tags:
-    - dotnet
+    github.com/project-slug: ${{values.destination.repo + "/" + values.destination.app_name}}
+    backstage.io/techdocs-ref: dir:.
 spec:
-  type: solution
+  type: service
   lifecycle: production
-  owner: ${{values.owner}}
-  system: ${{values.system_name}}
----
-# apiVersion: backstage.io/v1alpha1
-# kind: Location
-# metadata:
-#   name: ${{values.app_name + "-solution-data"}}
-# spec:
-#   targets:
-#     - /src/EntrypointFullNamespace/catalog-info.yaml
+  owner: ${{values.owner | dump}}

@@ -1,105 +1,92 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: dotnet-microservice-solution
-  title: .NET - Microservice Solution
-  description: Common .NET Microservice Scaffolder
+  name: create-dotNet-app-template
+  title: .Net App Template - WALBER
+  description: Crie um novo projeto .Net
   tags:
-    - recommended
-    - coe-arq
-    - microservice
     - dotnet
-    - webapi
 spec:
-  owner: squad-coe
-  type: service
+  owner: Junto Seguros
+  type: website
   parameters:
-    - title: Provide some simple information about default entrypoint
-      required:
-        - app_name
-        - system_name
-        - k8s_cluster
-      properties:
-        app_name:
-          title: Service Name
-          type: string
-          description: Application Unique Name.
-          pattern: '^\S*[a-z\-]$'
-        system_name:
-          title: System
-          type: string
-          description: System that its component is part of.
-          ui:field: EntityPicker
-          ui:options:
-            allowedKinds:
-              - System
-            defaultKind: System
-        k8s_cluster:
-          title: Cluster Kubernetes
-          type: string
-          description: The cluster of deploy service
-          default: gke
-          enum:
-            - KUBECONFIG_GKE
-            - KUBECONFIG_AKS
-            - KUBECONFIG_EKS
-            - KUBECONFIG_ONPREM
-          enumNames:
-            - 'GCP Kubernetes (gke)'
-            - 'Azure Kubernetes (aks)'
-            - 'AWS Kubernetes (eks)'
-            - 'On Premises'
-        owner:
-          title: Owner
-          type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            allowedKinds:
-              - Group
-  steps:
-    - id: fetch-base
-      name: Fetch Base
-      action: fetch:template
-      input:
-        url: ./skeleton
-        values:
-          app_name: ${{ parameters.app_name }}
-          owner: ${{ parameters.owner }}
-          system_name: ${{ parameters.system_name }}
-          remote_url: ${{ steps.publish.output.remoteUrl }}
-          k8s_cluster: ${{ parameters.k8s_cluster }}
-
-    - id: Rename
-      name: Rename solution and project
-      action: fs:rename
-      input:
-        files:
-          - from: ./Template.sln
-            to: ./${{ parameters.app_name }}.sln
-          - from: ./src/tests/TemplateTests.csproj
-            to: ./src/tests/${{parameters.app_name}}Test.csproj
-
-    - id: publish
-      name: Publish
-      action: publish:gitlab
-      input:
-        allowedHosts: ['gitlab.coe.sysmap.com.br']
-        description: ${{ parameters.app_name }}
-        repoUrl: 'gitlab.coe.sysmap.com.br?repo=${{ parameters.app_name }}&owner=rfp-vivo-2023'
-        repoVisibility: 'public'
-
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
-
-  output:
-    links:
-      - title: Repository
-        url: ${{ steps.publish.output.remoteUrl }}
-      - title: Open in catalog
-        icon: catalog
-        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Preencha os campos abaixo
+        required:
+          - app_name
+          - owner
+        properties:
+          app_name:
+            title: Nome do projeto
+            type: string
+            description: Nome do projeto
+            ui:field: EntityNamePicker
+          description:
+            title: Descrição
+            type: string
+            description: Descreva seu projeto
+          owner:
+            title: Proprietário
+            type: string
+            description: Proprietário do Projeto
+            ui:field: OwnerPicker
+            ui:options:
+              allowedKinds:
+                - User
+            defaultValue: user:github/${{identity.githubLogin}}
+      - title: Nome do Repositório
+        required:
+          - repoUrl
+        properties:
+          host:
+            title: Host
+            type: string
+            default: github.com
+            enum:
+              - github.com
+            readOnly: true
+          repoUrl:
+            title: Organization
+            type: string
+            default: headllama
+            enum:
+              - headllama
+            readOnly: true
+          app_name:
+            title: Repo
+            type: string
+            description: Nome do projeto
+    steps:
+      - id: template
+        name: Fetch Skeleton + Template
+        action: fetch:template
+        input:
+          url: ./skeleton
+          copyWithoutRender:
+            - .github/workflows/*
+          values:
+            app_name: ${{ parameters.app_name }}
+            description: ${{ parameters.description }}
+            destination: ${{ parameters.repoUrl | parseRepoUrl }}
+            owner: ${{ parameters.owner }}
+      - id: publish
+        name: Publish
+        action: publish:github
+        input:
+          allowedHosts:
+            - github.com
+          description: This is ${{ parameters.app_name }}
+          repoUrl: ${{ parameters.repoUrl }}
+          repoVisibility: private
+      - id: register
+        name: Register
+        action: catalog:register
+        input:
+          repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+          catalogInfoPath: /skeleton/catalog-info.yaml
+    output:
+      links:
+        - title: Repository
+          url: ${{ steps.publish.output.remoteUrl }}
+        - title: Open in catalog
+          icon: catalog
+          entityRef: ${{ steps.register.output.entityRef }}
