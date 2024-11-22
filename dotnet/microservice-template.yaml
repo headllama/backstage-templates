@@ -71,7 +71,7 @@ spec:
         allowedHosts:
           - github.com
         description: This is ${{ parameters.app_name }}
-        repoUrl: ${{ parameters.host }}
+        repoUrl: https://github.com/${{ parameters.host }}/${{ parameters.repoUrl }}
         repoVisibility: private
     - id: register
       name: Register
