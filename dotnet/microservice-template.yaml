@@ -33,17 +33,17 @@ spec:
               allowedKinds:
                 - User
             defaultValue: github/${{identity.githubLogin}}
-      - title: Nome do Repositório
-        required:
-          - repoUrl
-        properties:
-          repoUrl:
-            title: Repository Location
-            type: string
-            ui:field: RepoUrlPicker
-            ui:options:
-              allowedHosts:
-                - github.com
+#      - title: Nome do Repositório
+#        required:
+#          - organization
+#        properties:      
+#          organization:
+#            title: Organization
+#            type: string
+#            default: GitJMSeguradora
+#            enum:
+#              - GitJMSeguradora
+#            readOnly: true
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -64,7 +64,7 @@ spec:
         allowedHosts:
           - github.com
         description: This is ${{ parameters.app_name }}
-        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=coe-tech'
+        repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
         repoVisibility: private
     - id: register
       name: Register
