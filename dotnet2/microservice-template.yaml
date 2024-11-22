@@ -65,7 +65,7 @@ spec:
         allowedHosts: ['github.com']
         description: ${{ parameters.app_name }}
         repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
-        repoVisibility: 'public'
+        repoVisibility: 'private'
     - id: register
       name: Register
       action: catalog:register
