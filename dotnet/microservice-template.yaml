@@ -51,7 +51,7 @@ spec:
             enum:
               - headllama
             readOnly: true
-			ui:options:
+            ui:options:
               allowedHosts:
                 - github.com
     steps:
