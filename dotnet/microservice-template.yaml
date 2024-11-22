@@ -47,9 +47,9 @@ spec:
           repoUrl:
             title: Organization
             type: string
-            default: headllama
+            default: coe-tech
             enum:
-              - headllama
+              - coe-tech
             readOnly: true
             ui:options:
               allowedHosts:
