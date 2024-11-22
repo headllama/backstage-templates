@@ -51,10 +51,6 @@ spec:
             enum:
               - headllama
             readOnly: true
-          app_name:
-            title: Repo
-            type: string
-            description: Nome do projeto
     steps:
       - id: template
         name: Fetch Skeleton + Template
