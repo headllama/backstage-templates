@@ -44,13 +44,13 @@ spec:
             enum:
               - github.com
             readOnly: true
-#          repoUrl:
-#            title: Organization
-#            type: string
-#            default: coe-tech
-#            enum:
-#              - coe-tech
-#            readOnly: true
+          repoUrl:
+            title: Organization
+            type: string
+            default: coe-tech
+            enum:
+              - coe-tech
+            readOnly: true
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -62,7 +62,7 @@ spec:
         values:
           app_name: ${{ parameters.app_name }}
           description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl }}
+          destination: ${{ parameters.host }}
           owner: ${{ parameters.owner }}
     - id: publish
       name: Publish
@@ -71,7 +71,7 @@ spec:
         allowedHosts:
           - github.com
         description: This is ${{ parameters.app_name }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: ${{ parameters.host }}
         repoVisibility: private
     - id: register
       name: Register
