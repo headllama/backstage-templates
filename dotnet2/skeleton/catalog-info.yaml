@@ -5,6 +5,9 @@ metadata:
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif %}
+  tags:
+      - dotnet
+      - foobar
   annotations:
     github.com/project-slug: headllama/${{ parameters.app_name }}
     backstage.io/techdocs-ref: dir:.
