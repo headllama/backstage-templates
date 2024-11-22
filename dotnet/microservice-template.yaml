@@ -44,13 +44,6 @@ spec:
             ui:options:
               allowedHosts:
                 - github.com
-          owner:
-            title: Organization
-            type: string
-            default: coe-tech
-            enum:
-              - coe-tech
-            readOnly: true
   steps:
     - id: template
       name: Fetch Skeleton + Template
