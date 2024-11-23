@@ -13,5 +13,5 @@ metadata:
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service
-  lifecycle: experimental
+  lifecycle: production
   owner: ${{values.owner | dump}}
