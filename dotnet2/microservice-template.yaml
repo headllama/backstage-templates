@@ -47,17 +47,17 @@ spec:
           type: string
           description: Pergunta 1 com regex
           pattern: '^[a-zA-Z0-9]{3,50}$'
-#    - title: Choose a location
-#      required:
-#        - repoUrl
-#      properties:
-#        repoUrl:
-#          title: Repository Location
-#          type: string
-#          ui:field: RepoUrlPicker
-#          ui:options:
-#            allowedHosts:
-#              - github.com
+        checkbox:
+          title: Cluster Kubernetes
+          type: string
+          description: The cluster of deploy service
+          default: gke
+          enum:
+            - FOO
+            - BAR
+          enumNames:
+            - 'Checkbox 1'
+            - 'Checkbox 2'
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -71,6 +71,16 @@ spec:
           description: ${{ parameters.description }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
+          foo: ${{ parameters.foo }}
+          foo: ${{ parameters.bar }}
+
+    - id: Rename
+      name: Rename solution and project
+      action: fs:rename
+      input:
+        files:
+          - from: ./foo
+            to: ./bar
 
     - id: publish
       name: Publish
