@@ -72,7 +72,7 @@ spec:
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
           foo: ${{ parameters.foo }}
-          foo: ${{ parameters.bar }}
+          bar: ${{ parameters.bar }}
 
     - id: Rename
       name: Rename solution and project
