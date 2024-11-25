@@ -48,9 +48,9 @@ spec:
           description: Pergunta 1 com regex
           pattern: '^[a-zA-Z0-9]{3,50}$'
         checkbox:
-          title: Cluster Kubernetes
+          title: Checkbox
           type: string
-          description: The cluster of deploy service
+          description: Checkbox maneira
           default: gke
           enum:
             - FOO
