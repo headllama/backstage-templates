@@ -33,6 +33,20 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
+    - title: Provide some simple information
+      required:
+        - foo
+        - bar
+      properties:
+        foo:
+          title: Foo Title
+          type: string
+          description: Pergunta 1
+        bar:
+          title: Bar Title
+          type: string
+          description: Pergunta 1 com regex
+          pattern: '^[a-zA-Z0-9]{3,50}$'
 #    - title: Choose a location
 #      required:
 #        - repoUrl
