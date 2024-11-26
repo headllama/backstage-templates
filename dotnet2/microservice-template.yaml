@@ -84,7 +84,7 @@ spec:
 
     - id: publish-to-github
       name: Publicar no GitHub
-      action: publish:github
+      action: publish:github:pull-request
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
         branch: main
