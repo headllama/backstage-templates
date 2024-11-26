@@ -33,38 +33,38 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
-    - title: Provide some simple information
-      required:
-        - foo
-        - bar
-      properties:
-        foo:
-          title: Foo Title
-          type: string
-          description: Pergunta 1
-        bar:
-          title: Bar Title
-          type: string
-          description: Pergunta 1 com regex
-          pattern: '^[a-zA-Z0-9]{3,50}$'
-        checkbox:
-          title: Checkbox
-          type: string
-          description: Checkbox maneira
-          default: gke
-          enum:
-            - FOO
-            - BAR
-          enumNames:
-            - 'Checkbox 1'
-            - 'Checkbox 2'
+    # - title: Provide some simple information
+    #   required:
+    #     - foo
+    #     - bar
+    #   properties:
+    #     foo:
+    #       title: Foo Title
+    #       type: string
+    #       description: Pergunta 1
+    #     bar:
+    #       title: Bar Title
+    #       type: string
+    #       description: Pergunta 1 com regex
+    #       pattern: '^[a-zA-Z0-9]{3,50}$'
+    #     checkbox:
+    #       title: Checkbox
+    #       type: string
+    #       description: Checkbox maneira
+    #       default: gke
+    #       enum:
+    #         - FOO
+    #         - BAR
+    #       enumNames:
+    #         - 'Checkbox 1'
+    #         - 'Checkbox 2'
   steps:
 
     - id: template
-      name: Fetch Skeleton + Template
+      name: Template
       action: fetch:template
       input:
-        url: ./skeleton
+        url: ./template
 
     - id: Rename
       name: Rename solution and project
@@ -80,7 +80,7 @@ spec:
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
         targetBranchName: master
-        branchName: foo5
+        branchName: foo6
         update: true
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
@@ -89,13 +89,19 @@ spec:
 #          - sourcePath: './src/api'  # Caminho do arquivo no template
 #            targetPath: './src/api' 
 
-#    - id: Rename
-#      name: Rename solution and project
-#      action: fs:rename
-#      input:
-#        files:
-#          - from: ./foo
-#            to: ./bar
+    - id: template
+      name: Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
+        values:
+          component_id: ${{ parameters.component_id }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+
 
     - id: publish
       name: Publish
