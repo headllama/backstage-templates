@@ -82,18 +82,22 @@ spec:
 #          - from: ./foo
 #            to: ./bar
 
-    - id: add-foo-file
-      name: Adicionar Arquivo foo-XXXX
-      action: github:commit
+    - id: publish-to-github
+      name: Publicar no GitHub
+      action: publish:github:pull-request
       input:
-        # Defina o caminho e o conteúdo do arquivo foo-XXXX
-        path: 'foo-123'  # A variável `timestamp` adicionará um timestamp único.
-        content: |
-          # Arquivo foo-XXXX
-          Conteúdo gerado para o arquivo foo-XXXX
-        repository: 'https://github.com/headllama/abc123456.git'
-        branch: 'master'  # Ou outro branch do seu repositório
-        commitMessage: 'Adicionando arquivo foo-XXXX'
+        repoUrl: 'github.com?repo=abc123456&owner=headllama'
+        branch: master
+        fileChanges:
+          - path: 'foo-bar'  # Nome único para o arquivo
+            content: |
+              # Arquivo foo-XXXX
+              Conteúdo do arquivo foo-XXXX
+        baseBranch: 'master'  # Branch de destino para a PR
+        headBranch: 'add-foo-file'  # Nome da branch de origem para a PR
+        title: 'Adicionar arquivo foo-XXXX'
+        body: 'Este PR adiciona o arquivo foo-XXXX ao repositório.'
+        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
 
     - id: publish
       name: Publish
