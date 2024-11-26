@@ -84,16 +84,7 @@ spec:
 
     - id: publish-to-github-1
       name: Publicar no GitHub
-      action: publish:github:push
-      input:
-        repoUrl: "github.com:headllama/abc123456"
-        branch: main
-        filePath: "./catalog-info-{{ parameters.projectName }}.yaml"
-        commitMessage: "Adicionando catalog-info para {{ parameters.projectName }}"
-        
-    - id: publish-to-github
-      name: Publicar no GitHub
-      action: publish:github:push
+      action: publish:github
       input:
         repoUrl: "github.com:headllama/abc123456"
         branch: main
