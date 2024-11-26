@@ -59,15 +59,6 @@ spec:
             - 'Checkbox 1'
             - 'Checkbox 2'
   steps:
-
-    - id: prepare-file
-      name: Copiar e Renomear catalog-info.yaml
-      action: backstage:exec
-      input:
-        command: |
-          cp ./skeleton/catalog-info.yaml ./catalog-info-1.yaml
-
-
     - id: publish-to-github
       name: Publicar no GitHub
       action: publish:github:pull-request
@@ -79,9 +70,16 @@ spec:
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
-        files:
-          - sourcePath: ./skeleton/catalog-info.yaml
-            targetPath: ./catalog-info-1.yaml
+        commitChanges:
+          - path: './catalog-info1.yaml'  # O caminho para o novo arquivo
+            content: |
+              apiVersion: backstage.io/v1alpha1
+              kind: Component
+              metadata:
+                name: new-component
+                description: A new component created from the template.
+              spec:
+                type: service
 
 
     - id: template
