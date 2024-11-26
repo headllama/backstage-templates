@@ -82,27 +82,18 @@ spec:
 #          - from: ./foo
 #            to: ./bar
 
-    - id: publish-to-github
-      name: Publicar no GitHub
-      action: publish:github
+    - id: add-foo-file
+      name: Adicionar Arquivo foo-XXXX
+      action: scaffolder:publish
       input:
-        repoUrl: 'github.com?repo=abc123456&owner=headllama'
-        branch: master
-        repoVisibility: 'private'
-        files:
-          - file:
-              path: "./catalog-info-bar.yaml"
-              content: |
-                apiVersion: backstage.io/v1alpha1
-                kind: Component
-                metadata:
-                  name: {{ parameters.app_name }}
-                  description: {{ parameters.description }}
-                  owner: {{ parameters.owner }}
-                spec:
-                  type: service
-                  lifecycle: production
-        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
+        # Defina o caminho e o conteúdo do arquivo foo-XXXX
+        path: 'foo-123'  # A variável `timestamp` adicionará um timestamp único.
+        content: |
+          # Arquivo foo-XXXX
+          Conteúdo gerado para o arquivo foo-XXXX
+        repository: 'https://github.com/headllama/abc123456.git'
+        branch: 'master'  # Ou outro branch do seu repositório
+        commitMessage: 'Adicionando arquivo foo-XXXX'
 
     - id: publish
       name: Publish
