@@ -33,7 +33,7 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
-          
+
     - title: Provide some simple information
       required:
         - bar
@@ -58,6 +58,7 @@ spec:
         #   enumNames:
         #     - 'Checkbox 1'
         #     - 'Checkbox 2'
+
   steps:
     - id: template
       name: Fetch Skeleton + Template
@@ -70,6 +71,7 @@ spec:
           app_name: ${{ parameters.app_name }}
           description: ${{ parameters.description }}
           repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
+          jira_proj: ${{ parameters.jira_proj }}
           owner: ${{ parameters.owner }}
 
     - id: Rename
@@ -108,7 +110,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml"
+        #catalogInfoPath: "./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml"
 
   output:
     links:
