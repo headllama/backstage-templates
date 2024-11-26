@@ -87,21 +87,22 @@ spec:
       action: publish:github
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
-        branchName: master
+        branch: master
+        repoVisibility: 'private'
         files:
           - file:
-              path: "./catalog-info-{{ parameters.projectName }}.yaml"
+              path: "./catalog-info-bar.yaml"
               content: |
                 apiVersion: backstage.io/v1alpha1
                 kind: Component
                 metadata:
-                  name: {{ parameters.projectName }}
+                  name: {{ parameters.app_name }}
                   description: {{ parameters.description }}
                   owner: {{ parameters.owner }}
                 spec:
                   type: service
                   lifecycle: production
-        commitMessage: "Adicionando catalog-info para {{ parameters.projectName }}"
+        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
 
     - id: publish
       name: Publish
