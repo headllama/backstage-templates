@@ -74,13 +74,13 @@ spec:
           foo: ${{ parameters.foo }}
           bar: ${{ parameters.bar }}
 
-    - id: Rename
-      name: Rename solution and project
-      action: fs:rename
-      input:
-        files:
-          - from: ./foo
-            to: ./bar
+#    - id: Rename
+#      name: Rename solution and project
+#      action: fs:rename
+#      input:
+#        files:
+#          - from: ./foo
+#            to: ./bar
 
     - id: create-file
       name: Gerar arquivo catalog-info
