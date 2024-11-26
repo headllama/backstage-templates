@@ -59,6 +59,15 @@ spec:
             - 'Checkbox 1'
             - 'Checkbox 2'
   steps:
+
+    - id: prepare-file
+      name: Copiar e Renomear catalog-info.yaml
+      action: backstage:exec
+      input:
+        command: |
+          cp ./skeleton/catalog-info.yaml ./catalog-info-1.yaml
+
+
     - id: publish-to-github
       name: Publicar no GitHub
       action: publish:github:pull-request
