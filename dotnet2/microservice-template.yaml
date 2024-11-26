@@ -87,17 +87,18 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
-        branch: master
-        fileChanges:
+        targetBranchName: master
+        branchName: foo
+        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
+        description: exemplo
+        files:
           - path: 'foo-bar'  # Nome único para o arquivo
+            create: true
             content: |
               # Arquivo foo-XXXX
               Conteúdo do arquivo foo-XXXX
-        baseBranch: 'master'  # Branch de destino para a PR
-        headBranch: 'add-foo-file'  # Nome da branch de origem para a PR
         title: 'Adicionar arquivo foo-XXXX'
-        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
-        description: exemplo
+
 
     - id: publish
       name: Publish
