@@ -84,12 +84,10 @@ spec:
 
     - id: publish-to-github
       name: Publicar no GitHub
-      action: publish:github:pull-request
+      action: publish:github
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
-        branchName: main
-        title: Overwrite content for ${{ parameters.projectName }}
-        description: This PR was created by a Roadie Backstage scaffolder task
+        branchName: master
         files:
           - file:
               path: "./catalog-info-{{ parameters.projectName }}.yaml"
