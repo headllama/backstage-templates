@@ -82,13 +82,25 @@ spec:
 #          - from: ./foo
 #            to: ./bar
 
-    - id: publish-to-github-1
+    - id: publish-to-github
       name: Publicar no GitHub
       action: publish:github
       input:
         repoUrl: "github.com:headllama/abc123456"
         branch: main
-        filePath: "./catalog-info-{{ parameters.projectName }}.yaml"
+        files:
+          - file:
+              path: "./catalog-info-{{ parameters.projectName }}.yaml"
+              content: |
+                apiVersion: backstage.io/v1alpha1
+                kind: Component
+                metadata:
+                  name: {{ parameters.projectName }}
+                  description: {{ parameters.description }}
+                  owner: {{ parameters.owner }}
+                spec:
+                  type: service
+                  lifecycle: production
         commitMessage: "Adicionando catalog-info para {{ parameters.projectName }}"
 
     - id: publish
