@@ -89,15 +89,12 @@ spec:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
         targetBranchName: master
         branchName: foo
-        commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
+        commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
-        files:
-          - path: 'foo-bar'  # Nome único para o arquivo
-            create: true
-            content: |
-              # Arquivo foo-XXXX
-              Conteúdo do arquivo foo-XXXX
         title: 'Adicionar arquivo foo-XXXX'
+        files:
+          - sourcePath: /catalog-info.yaml
+            targetPath: /catalog-info-1.yaml
 
 
     - id: publish
