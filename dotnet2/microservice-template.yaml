@@ -82,21 +82,15 @@ spec:
 #          - from: ./foo
 #            to: ./bar
 
-    - id: create-file
-      name: Gerar arquivo catalog-info
-      action: scaffolder:write
+    - id: publish-to-github-1
+      name: Publicar no GitHub
+      action: publish:github:push
       input:
-        targetPath: "./catalog-info-{{ parameters.projectName }}.yaml"
-        content: |
-          apiVersion: backstage.io/v1alpha1
-          kind: Component
-          metadata:
-            name: {{ parameters.app_name }}
-            description: {{ parameters.description }}
-            owner: {{ parameters.owner }}
-          spec:
-            type: service
-            lifecycle: production
+        repoUrl: "github.com:headllama/abc123456"
+        branch: main
+        filePath: "./catalog-info-{{ parameters.projectName }}.yaml"
+        commitMessage: "Adicionando catalog-info para {{ parameters.projectName }}"
+        
     - id: publish-to-github
       name: Publicar no GitHub
       action: publish:github:push
