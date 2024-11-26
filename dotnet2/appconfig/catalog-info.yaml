@@ -5,12 +5,14 @@ metadata:
   {%- if values.description %}
   description: ${{values.description | dump}}
   {%- endif %}
+  repoUrl: https://github.com/headllama/${{ values.app_name }}
   tags:
       - dotnet
       - foobar
   annotations:
-    github.com/project-slug: headllama/${{ parameters.app_name }}
+    github.com/project-slug: headllama/${{ values.app_name }}
     backstage.io/techdocs-ref: dir:.
+    jira.com/project-key: ${{ values.jira_proj  }}
 spec:
   type: service
   lifecycle: production

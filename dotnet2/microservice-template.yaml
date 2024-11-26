@@ -33,33 +33,31 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
-    # - title: Provide some simple information
-    #   required:
-    #     - foo
-    #     - bar
-    #   properties:
-    #     foo:
-    #       title: Foo Title
-    #       type: string
-    #       description: Pergunta 1
-    #     bar:
-    #       title: Bar Title
-    #       type: string
-    #       description: Pergunta 1 com regex
-    #       pattern: '^[a-zA-Z0-9]{3,50}$'
-    #     checkbox:
-    #       title: Checkbox
-    #       type: string
-    #       description: Checkbox maneira
-    #       default: gke
-    #       enum:
-    #         - FOO
-    #         - BAR
-    #       enumNames:
-    #         - 'Checkbox 1'
-    #         - 'Checkbox 2'
+    - title: Provide some simple information
+      required:
+        - bar
+      properties:
+        jira_proj:
+          title: Projeto do jira
+          type: string
+          description: Pergunta 1
+        bar:
+          title: Bar Title
+          type: string
+          description: Pergunta 1 com regex
+          pattern: '^[a-zA-Z0-9]{3,50}$'
+        # checkbox:
+        #   title: Checkbox
+        #   type: string
+        #   description: Checkbox maneira
+        #   default: gke
+        #   enum:
+        #     - FOO
+        #     - BAR
+        #   enumNames:
+        #     - 'Checkbox 1'
+        #     - 'Checkbox 2'
   steps:
-
     - id: template
       name: Fetch Skeleton + Template
       action: fetch:template
@@ -78,8 +76,8 @@ spec:
       action: fs:rename
       input:
         files:
-          - from: ./template/catalog-info.yaml
-            to: ./template/catalog-info-${{ parameters.app_name }}.yaml
+          - from: ./cataloginfo/catalog-info.yaml
+            to: ./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml
 
     - id: publish-to-github
       name: Publicar no GitHub
@@ -92,20 +90,7 @@ spec:
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
-        sourcePath: ./template
-
-    # - id: template
-    #   name: Fetch Skeleton + Template
-    #   action: fetch:template
-    #   input:
-    #     url: ./skeleton
-    #     copyWithoutRender:
-    #       - .github/workflows/*
-    #     values:
-    #       app_name: ${{ parameters.app_name }}
-    #       description: ${{ parameters.description }}
-    #       repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
-    #       owner: ${{ parameters.owner }}
+        sourcePath: ./cataloginfo
 
     - id: publish
       name: Publish
@@ -117,12 +102,12 @@ spec:
         repoVisibility: 'private'
         sourcePath: ./skeleton
 
-    # - id: register
-    #   name: Register
-    #   action: catalog:register
-    #   input:
-    #     repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-    #     catalogInfoPath: "/catalog-info*.yaml"
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml"
 
   output:
     links:
