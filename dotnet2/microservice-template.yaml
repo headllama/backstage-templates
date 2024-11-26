@@ -96,8 +96,8 @@ spec:
         baseBranch: 'master'  # Branch de destino para a PR
         headBranch: 'add-foo-file'  # Nome da branch de origem para a PR
         title: 'Adicionar arquivo foo-XXXX'
-        body: 'Este PR adiciona o arquivo foo-XXXX ao repositório.'
         commitMessage: "Adicionando catalog-info para {{ parameters.app_name }}"
+        description: exemplo
 
     - id: publish
       name: Publish
