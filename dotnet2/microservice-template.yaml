@@ -64,7 +64,7 @@ spec:
       name: Template
       action: fetch:template
       input:
-        url: ./template
+        url: ./skeleton
 
     - id: Rename
       name: Rename solution and project
@@ -85,6 +85,7 @@ spec:
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
+        sourcePath: ./template
 
     # - id: template
     #   name: Fetch Skeleton + Template
@@ -107,7 +108,6 @@ spec:
         description: ${{ parameters.app_name }}
         repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
         repoVisibility: 'private'
-        sourcePath: ./skeleton  # Publique apenas os arquivos do skeleton
 
     - id: register
       name: Register
