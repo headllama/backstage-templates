@@ -33,6 +33,7 @@ spec:
             allowedKinds:
               - User
           defaultValue: github/${{identity.githubLogin}}
+          
     - title: Provide some simple information
       required:
         - bar
