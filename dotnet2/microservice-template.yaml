@@ -82,8 +82,8 @@ spec:
           - from: ./cataloginfo/catalog-info.yaml
             to: ./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml
 
-    - id: publish-to-github
-      name: Publicar no GitHub
+    - id: Pr_catalog-info
+      name: PR do catalog-info
       action: publish:github:pull-request
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
@@ -105,12 +105,12 @@ spec:
         repoVisibility: 'private'
         sourcePath: ./skeleton
 
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        #catalogInfoPath: "./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml"
+    # - id: register
+    #   name: Register
+    #   action: catalog:register
+    #   input:
+    #     repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+    #     catalogInfoPath: "./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml"
 
   output:
     links:
