@@ -72,7 +72,7 @@ spec:
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
         files:
-          - sourcePath: ./skeleton/catalog-info.yaml
+          - sourcePath: ./catalog-info.yaml
             targetPath: ./catalog-info-1.yaml
 
 
