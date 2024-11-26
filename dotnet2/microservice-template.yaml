@@ -74,7 +74,6 @@ spec:
           - from: ./catalog-info.yaml
             to: ./catalog-info${{ parameters.app_name }}.yaml
 
-
     - id: publish-to-github
       name: Publicar no GitHub
       action: publish:github:pull-request
@@ -86,24 +85,9 @@ spec:
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
-        commitChanges:
-          - sourcePath: './src/api'  # Caminho do arquivo no template
-            targetPath: './src/api' 
-
-    - id: template
-      name: Fetch Skeleton + Template
-      action: fetch:template
-      input:
-        url: ./skeleton
-        copyWithoutRender:
-          - .github/workflows/*
-        values:
-          app_name: ${{ parameters.app_name }}
-          description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
-          owner: ${{ parameters.owner }}
-          foo: ${{ parameters.foo }}
-          bar: ${{ parameters.bar }}
+#        commitChanges:
+#          - sourcePath: './src/api'  # Caminho do arquivo no template
+#            targetPath: './src/api' 
 
 #    - id: Rename
 #      name: Rename solution and project
