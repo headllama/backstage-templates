@@ -85,9 +85,6 @@ spec:
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
-#        commitChanges:
-#          - sourcePath: './src/api'  # Caminho do arquivo no template
-#            targetPath: './src/api' 
 
     - id: template
       name: Fetch Skeleton + Template
@@ -102,7 +99,6 @@ spec:
           repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
           owner: ${{ parameters.owner }}
 
-
     - id: publish
       name: Publish
       action: publish:github
@@ -111,6 +107,8 @@ spec:
         description: ${{ parameters.app_name }}
         repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
         repoVisibility: 'private'
+        sourcePath: ./skeleton  # Publique apenas os arquivos do skeleton
+
     - id: register
       name: Register
       action: catalog:register
