@@ -59,6 +59,23 @@ spec:
             - 'Checkbox 1'
             - 'Checkbox 2'
   steps:
+
+    - id: publish-to-github
+      name: Publicar no GitHub
+      action: publish:github:pull-request
+      input:
+        repoUrl: 'github.com?repo=abc123456&owner=headllama'
+        targetBranchName: master
+        branchName: foo4
+        update: true
+        commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
+        description: exemplo
+        title: 'Adicionar arquivo foo-XXXX'
+        files:
+          - sourcePath: ./skeleton/catalog-info.yaml
+            targetPath: ./catalog-info-1.yaml
+
+
     - id: template
       name: Fetch Skeleton + Template
       action: fetch:template
@@ -81,22 +98,6 @@ spec:
 #        files:
 #          - from: ./foo
 #            to: ./bar
-
-    - id: publish-to-github
-      name: Publicar no GitHub
-      action: publish:github:pull-request
-      input:
-        repoUrl: 'github.com?repo=abc123456&owner=headllama'
-        targetBranchName: master
-        branchName: foo3
-        update: true
-        commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
-        description: exemplo
-        title: 'Adicionar arquivo foo-XXXX'
-        files:
-          - sourcePath: ./catalog-info.yaml
-            targetPath: ./catalog-info-1.yaml
-
 
     - id: publish
       name: Publish
