@@ -86,18 +86,18 @@ spec:
         description: exemplo
         title: 'Adicionar arquivo foo-XXXX'
 
-    - id: template
-      name: Fetch Skeleton + Template
-      action: fetch:template
-      input:
-        url: ./skeleton
-        copyWithoutRender:
-          - .github/workflows/*
-        values:
-          app_name: ${{ parameters.app_name }}
-          description: ${{ parameters.description }}
-          repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
-          owner: ${{ parameters.owner }}
+    # - id: template
+    #   name: Fetch Skeleton + Template
+    #   action: fetch:template
+    #   input:
+    #     url: ./skeleton
+    #     copyWithoutRender:
+    #       - .github/workflows/*
+    #     values:
+    #       app_name: ${{ parameters.app_name }}
+    #       description: ${{ parameters.description }}
+    #       repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
+    #       owner: ${{ parameters.owner }}
 
     - id: publish
       name: Publish
