@@ -65,7 +65,7 @@ spec:
       input:
         repoUrl: 'github.com?repo=abc123456&owner=headllama'
         targetBranchName: master
-        branchName: foo4
+        branchName: foo5
         update: true
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
