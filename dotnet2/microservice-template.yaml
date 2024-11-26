@@ -86,7 +86,7 @@ spec:
       name: Publicar no GitHub
       action: publish:github
       input:
-        repoUrl: "github.com:headllama/abc123456"
+        repoUrl: 'github.com?repo=abc123456&owner=headllama'
         branch: main
         files:
           - file:
