@@ -47,17 +47,89 @@ spec:
           type: string
           description: Pergunta 1 com regex
           pattern: '^[a-zA-Z0-9]{3,50}$'
-        # checkbox:
-        #   title: Checkbox
-        #   type: string
-        #   description: Checkbox maneira
-        #   default: gke
-        #   enum:
-        #     - FOO
-        #     - BAR
-        #   enumNames:
-        #     - 'Checkbox 1'
-        #     - 'Checkbox 2'
+
+    - title: Provide some simple information
+        required:
+          - db_created
+        properties:
+
+          db_created:
+            title: O banco de dados foi criado?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          connection_string:
+            title: As connections string foram definidas? (Se houver)
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          solution_renomeado:
+            title: A solution e projetos foram renomeados?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          teste_cobertura:
+            title: Os testes de cobertura estão em 80%?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          master_branch:
+            title: A branch master já está configurada com os padrões e boas práticas de bloqueios e aprovações?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          endpoint_requisitado:
+            title: O endpoint será requisitado externamente?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
+          repo_criado:
+            title: Os repositórios foram criados?
+            type: string
+            description: -
+            enum:
+              - Y
+              - N
+            enumNames:
+              - 'SIM'
+              - 'NÃO'
+
 
   steps:
     - id: template
