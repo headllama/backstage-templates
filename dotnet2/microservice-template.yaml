@@ -56,7 +56,7 @@ spec:
         db_created:
           title: O banco de dados foi criado?
           type: string
-          description: descrição
+          description: O banco de dados foi criado?
           enum:
             - Y
             - N
@@ -67,7 +67,7 @@ spec:
         connection_string:
           title: As connections string foram definidas? (Se houver)
           type: string
-          description: descrição
+          description: As connections string foram definidas? (Se houver)
           enum:
             - Y
             - N
@@ -78,7 +78,7 @@ spec:
         solution_renomeado:
           title: A solution e projetos foram renomeados?
           type: string
-          description: descrição
+          description: A solution e projetos foram renomeados?
           enum:
             - Y
             - N
@@ -89,7 +89,7 @@ spec:
         teste_cobertura:
           title: Os testes de cobertura estão em 80%?
           type: string
-          description: descrição
+          description: Os testes de cobertura estão em 80%?
           enum:
             - Y
             - N
@@ -100,7 +100,7 @@ spec:
         master_branch:
           title: A branch master já está configurada com os padrões e boas práticas de bloqueios e aprovações?
           type: string
-          description: descrição
+          description: A branch master já está configurada com os padrões e boas práticas de bloqueios e aprovações?
           enum:
             - Y
             - N
@@ -111,7 +111,7 @@ spec:
         endpoint_requisitado:
           title: O endpoint será requisitado externamente?
           type: string
-          description: descrição
+          description: O endpoint será requisitado externamente?
           enum:
             - Y
             - N
@@ -122,7 +122,7 @@ spec:
         repo_criado:
           title: Os repositórios foram criados?
           type: string
-          description: descrição
+          description: Os repositórios foram criados?
           enum:
             - Y
             - N
@@ -158,13 +158,13 @@ spec:
       name: PR do catalog-info
       action: publish:github:pull-request
       input:
-        repoUrl: 'github.com?repo=abc123456&owner=headllama'
+        repoUrl: 'github.com?repo=backstage-catalog&owner=GitJMSeguradora'
         targetBranchName: master
-        branchName: foo6
+        branchName: catalog-${{ parameters.app_name }}
         update: true
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
-        title: 'Adicionar arquivo foo-XXXX'
+        title: 'Adicionando catalog-info para ${{ parameters.app_name }'
         sourcePath: ./cataloginfo
 
     - id: publish
