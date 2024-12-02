@@ -11,7 +11,7 @@ metadata:
       - foobar
   annotations:
     github.com/project-slug: headllama/${{ values.app_name }}
-    backstage.io/techdocs-ref: dir:.
+    backstage.io/techdocs-ref: url:https://github.com/headllama/${{ values.app_name }}
     jira.com/project-key: ${{ values.jira_proj  }}
 spec:
   type: service
