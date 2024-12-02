@@ -164,7 +164,7 @@ spec:
         update: true
         commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
         description: exemplo
-        title: 'Adicionando catalog-info para ${{ parameters.app_name }'
+        title: "Adicionando catalog-info para ${{ parameters.app_name }}"
         sourcePath: ./cataloginfo
 
     - id: publish
