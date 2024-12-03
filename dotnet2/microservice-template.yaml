@@ -167,14 +167,12 @@ spec:
     #     title: "Adicionando catalog-info para ${{ parameters.app_name }}"
     #     sourcePath: ./cataloginfo
 
-    - id: execute-script
-      name: Execute Script
-      action: executeShellCommand
+    - id: run-shell-command
+      name: Run Shell Command
+      action: custom:command:execute
       input:
-        command: ./script-example.sh
-        args:
-          - ${{ parameters.app_name }}
-        sourcePath: ./skeleton
+        command: echo
+        arguments: ["hello world"]
 
     - id: publish
       name: Publish
