@@ -154,18 +154,27 @@ spec:
           - from: ./cataloginfo/catalog-info.yaml
             to: ./cataloginfo/catalog-info-${{ parameters.app_name }}.yaml
 
-    - id: Pr_catalog-info
-      name: PR do catalog-info
-      action: publish:github:pull-request
+    # - id: Pr_catalog-info
+    #   name: PR do catalog-info
+    #   action: publish:github:pull-request
+    #   input:
+    #     repoUrl: 'github.com?repo=backstage-catalog&owner=GitJMSeguradora'
+    #     targetBranchName: master
+    #     branchName: catalog-${{ parameters.app_name }}
+    #     update: true
+    #     commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
+    #     description: exemplo
+    #     title: "Adicionando catalog-info para ${{ parameters.app_name }}"
+    #     sourcePath: ./cataloginfo
+
+    - id: execute-script
+      name: Execute Script
+      action: executeShellCommand
       input:
-        repoUrl: 'github.com?repo=backstage-catalog&owner=GitJMSeguradora'
-        targetBranchName: master
-        branchName: catalog-${{ parameters.app_name }}
-        update: true
-        commitMessage: "Adicionando catalog-info para ${{ parameters.app_name }}"
-        description: exemplo
-        title: "Adicionando catalog-info para ${{ parameters.app_name }}"
-        sourcePath: ./cataloginfo
+        command: ./script-example.sh
+        args:
+          - ${{ parameters.app_name }}
+        sourcePath: ./skeleton
 
     - id: publish
       name: Publish
