@@ -183,6 +183,8 @@ spec:
         repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
         repoVisibility: 'private'
         sourcePath: ./skeleton
+        gitCommitMessage: Create template [skip ci]
+
 
     # - id: register
     #   name: Register

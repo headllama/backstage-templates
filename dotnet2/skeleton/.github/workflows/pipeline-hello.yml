@@ -1,8 +1,75 @@
-name: hello-world
-on: push
+# Nome da pipeline.
+name: Backstage ms deploy
+
+env:
+  PROJETO: ${{ values.app_name }}
+  NAMESPACE: ${{ values.namespace }}
+  REGISTRY: foobar
+
+# Hooks
+# on é obrigatório
+on:
+  push:
+    branches: [ masterr ]
+  pull_request:
+    branches: [ bar ]
+
+# Os jobs que irão rodar
 jobs:
-  my-job:
-    runs-on: ubuntu-latest
+  build_job:
+    name: build
+    runs-on: self-hosted
     steps:
-      - name: my-step
-        run: echo "Hello World!"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: |
+          npm init -y
+          npm install
+#     - uses: actions/upload-artifact@v3.1.1
+#       with:
+#         path: ${{ '${{ github.workspace }}' }}/package.json
+#         name: skeleton-tar
+#         if-no-files-found: error
+#         retention-days: 1
+        
+  kaniko:
+    name: kaniko_push
+    runs-on: self-hosted
+    needs: [build_job]
+    steps:
+      - uses: actions/checkout@v4
+#    - uses: actions/download-artifact@v3.0.1
+#      with:
+#        name: skeleton-tar
+#        path: ${{ '${{ github.workspace }}' }}/package.json
+      - name: Kaniko builder
+        uses: aevea/action-kaniko@master
+        with:
+          username: ${{ '${{ secrets.DOCKERHUB_USERNAME }}' }}
+          password: ${{ '${{ secrets.DOCKERHUB_PASSWORD }}' }}
+          image: foo/${{ values.app_name }}
+          tag: ${{ '${{ github.run_number }}' }}
+  #         cache: true
+  #         cache_registry: foo/${{ values.app_name }}-cache
+        
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: [kaniko]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          sed -i 's,$REGISTRY.*,FOO/node-web-app,' k8s/helm/values.yaml
+          sed -i 's,tag:.*",tag: \"${{ '${{ github.run_number }}' }}\",' k8s/helm/values.yaml
+          echo "${{ '${{ secrets.KUBE_CONFIG }}' }}" > kubeconfig.backstage
+      - name: Helm tool installer
+        uses: Azure/setup-helm@v4.2.0
+      - name: Deploy
+        run: |
+          helm upgrade --install ${{ '${{ PROJETO }}' }} k8s/helm/ -n ${{ '${{ NAMESPACE }}' }}
+        env:
+          KUBECONFIG: kubeconfig.backstage
