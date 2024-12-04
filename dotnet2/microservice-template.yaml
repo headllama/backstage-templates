@@ -145,6 +145,7 @@ spec:
           repoUrl: 'github.com?repo=${{ parameters.app_name }}&owner=headllama'
           jira_proj: ${{ parameters.jira_proj }}
           owner: ${{ parameters.owner }}
+          namespace: foo
 
     - id: Rename
       name: Rename solution and project
