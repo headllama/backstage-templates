@@ -49,10 +49,10 @@ jobs:
         with:
           username: ${{ '${{ secrets.DOCKERHUB_USERNAME }}' }}
           password: ${{ '${{ secrets.DOCKERHUB_PASSWORD }}' }}
-          image: foo/${{ values.app_name }}
+          image: foo/${{ '$PROJETO' }}
           tag: ${{ '${{ github.run_number }}' }}
   #         cache: true
-  #         cache_registry: foo/${{ values.app_name }}-cache
+  #         cache_registry: foo/${{ '$PROJETO' }}-cache
         
   deploy:
     name: Deploy
@@ -63,13 +63,13 @@ jobs:
       - name: Set short git commit SHA
         id: vars
         run: |
-          sed -i 's,$REGISTRY.*,FOO/node-web-app,' k8s/helm/values.yaml
+          sed -i 's,$REGISTRY.*,FOO/${{ '$PROJETO' }},' k8s/helm/values.yaml
           sed -i 's,tag:.*",tag: \"${{ '${{ github.run_number }}' }}\",' k8s/helm/values.yaml
           echo "${{ '${{ secrets.KUBE_CONFIG }}' }}" > kubeconfig.backstage
       - name: Helm tool installer
         uses: Azure/setup-helm@v4.2.0
       - name: Deploy
         run: |
-          helm upgrade --install ${{ '${{ PROJETO }}' }} k8s/helm/ -n ${{ '${{ NAMESPACE }}' }}
+          helm upgrade --install ${{ '$PROJETO' }} k8s/helm/ -n ${{ '$NAMESPACE' }}
         env:
           KUBECONFIG: kubeconfig.backstage
