@@ -16,6 +16,19 @@ on:
 
 # Os jobs que irão rodar
 jobs:
+
+  common_steps:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+
+
   build_job:
     name: build
     runs-on: self-hosted
@@ -24,35 +37,66 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: |
-          npm init -y
-          npm install
-#     - uses: actions/upload-artifact@v3.1.1
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+#     - uses: actions/upload-artifact@v4
 #       with:
 #         path: ${{ '${{ github.workspace }}' }}/package.json
 #         name: skeleton-tar
 #         if-no-files-found: error
 #         retention-days: 1
         
+  test:
+    name: test
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn test
+
+  coverage:
+    needs: [ test ]
+    name: coverage
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - run: npm install -g yarn
+    - run: yarn install
+    - run: yarn build
+    - uses: paambaati/codeclimate-action@v9.0.0
+      env:
+        CC_TEST_REPORTER_ID: ${{ '${{ secrets.CODE_CLIMATE_TOKEN }}' }}
+      with:
+        coverageCommand: yarn run coverage
+
+
   kaniko:
     name: kaniko_push
     runs-on: self-hosted
     needs: [build_job]
     steps:
       - uses: actions/checkout@v4
-#    - uses: actions/download-artifact@v3.0.1
+#    - uses: actions/download-artifact@v4
 #      with:
 #        name: skeleton-tar
 #        path: ${{ '${{ github.workspace }}' }}/package.json
       - name: Kaniko builder
-        uses: aevea/action-kaniko@master
+        uses: aevea/action-kaniko@v0.14.0
         with:
           username: ${{ '${{ secrets.DOCKERHUB_USERNAME }}' }}
           password: ${{ '${{ secrets.DOCKERHUB_PASSWORD }}' }}
           image: ${{ '$REGISTRY' }}/${{ '$PROJETO' }}
           tag: ${{ '${{ github.run_number }}' }}
-  #         cache: true
-  #         cache_registry: ${{ '$REGISTRY' }}/${{ '$PROJETO' }}-cache
+          cache: true
+          cache_registry: ${{ '$REGISTRY' }}/${{ '$PROJETO' }}-cache
         
   deploy:
     name: Deploy
@@ -70,6 +114,6 @@ jobs:
         uses: Azure/setup-helm@v4.2.0
       - name: Deploy
         run: |
-          helm upgrade --install ${{ '$PROJETO' }} k8s/helm/ -n ${{ '$NAMESPACE' }}
+          helm upgrade --install --atomic ${{ '$PROJETO' }} k8s/helm/ -n ${{ '$NAMESPACE' }}
         env:
           KUBECONFIG: kubeconfig.backstage
