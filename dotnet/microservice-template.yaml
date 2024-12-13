@@ -58,23 +58,23 @@ spec:
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           owner: ${{ parameters.owner }}
 
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts:
-          - github.com
-        description: This is ${{ parameters.component_id }}
-        repoUrl: ${{ parameters.repoUrl }}
-#        repoVisibility: private
+#     - id: publish
+#       name: Publish
+#       action: publish:github
+#       input:
+#         allowedHosts:
+#           - github.com
+#         description: This is ${{ parameters.component_id }}
+#         repoUrl: ${{ parameters.repoUrl }}
+# #        repoVisibility: private
 
-    - id: register
-      name: Register
-      action: catalog:register
+    - id: run-script
+      name: Run Bash Script
+      action: custom:run:bashScript
       input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
-
+        scriptPath: exemplo-script.sh
+        additionalParams:
+          - "--example-flag"
   output:
     links:
       - title: Repository
